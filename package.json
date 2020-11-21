@@ -1,0 +1,63 @@
+{
+  "name": "@jakesidsmith/tsb",
+  "version": "0.0.0",
+  "description": "Dead simple TypeScript bundler, watcher, dev server, transpiler, and polyfiller",
+  "main": "dist/index.js",
+  "bin": {
+    "tsb": "dist/cli.js"
+  },
+  "scripts": {
+    "test-build": "rm -rf dist && rm -rf test-files/build && npm run dist && ./dist/cli.js build --config test-files/tsb.config.ts",
+    "dist": "rm -rf dist && tsc --project tsconfig.dist.json && chmod +x dist/cli.js",
+    "prettier": "prettier --write '*'",
+    "lint": "prettier --check '*' && eslint '**/*.{js,jsx,ts,tsx}'",
+    "typecheck": "tsc --project tsconfig.json",
+    "test": "npm run typecheck && npm run lint",
+    "prepublishOnly": "npm test && npm run dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakesidsmith/tsb.git"
+  },
+  "keywords": [
+    "typescript",
+    "bundle",
+    "bundler",
+    "transpiler",
+    "watch",
+    "watcher",
+    "dev",
+    "server",
+    "polyfill",
+    "polyfiller"
+  ],
+  "author": "Jake 'Sid' Smith",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jakesidsmith/tsb/issues"
+  },
+  "homepage": "https://github.com/jakesidsmith/tsb#readme",
+  "dependencies": {
+    "@babel/core": "^7.12.7",
+    "@babel/preset-env": "^7.12.7",
+    "babel-loader": "^8.2.1",
+    "core-js": "^3.7.0",
+    "fork-ts-checker-webpack-plugin": "^6.0.3",
+    "jargs": "^0.4.7",
+    "ts-loader": "^8.0.11",
+    "tsconfig-paths-webpack-plugin": "^3.3.0",
+    "typescript": "^4.1.2",
+    "webpack": "^5.6.0",
+    "yup": "^0.30.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.19.6",
+    "@types/yup": "^0.29.9",
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.2.0"
+  }
+}

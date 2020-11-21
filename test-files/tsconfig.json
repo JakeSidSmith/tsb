@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "sourceMap": true,
+    "paths": {
+      "alias": ["src/aliased.ts"],
+      "not-yup": ["../node_modules/yup", "../node_modules/@types/yup"]
+    }
+  },
+  "include": ["src"]
+}
