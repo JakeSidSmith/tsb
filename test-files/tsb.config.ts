@@ -8,6 +8,9 @@ const config: Config = {
   },
   tsconfig: path.resolve(process.cwd(), 'test-files/tsconfig.json'),
   hashFiles: false,
+  env: {
+    TEST: undefined,
+  },
 };
 
 export default config;

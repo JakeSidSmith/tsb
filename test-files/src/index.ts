@@ -7,6 +7,8 @@ import message from './required';
 
 // const validator = yup.array().of(yup.string());
 
+console.log(process.env.TEST);
+
 console.log(Enum.FOO, ConstEnum.BAR);
 
 console.log(Array.from([message, alias]));

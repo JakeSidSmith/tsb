@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import * as yup from 'yup';
-import { Configuration } from 'webpack';
+import { Configuration, EnvironmentPlugin } from 'webpack';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { Config, Mode } from './types';
@@ -67,6 +67,8 @@ export const createWebpackConfig = (
 
   const tsconfig = getTsconfig(tsconfigPath);
 
+  const envPlugin = config.env ? [new EnvironmentPlugin(config.env)] : [];
+
   return {
     mode,
     devtool: tsconfig.compilerOptions?.sourceMap ? 'source-map' : undefined,
@@ -127,6 +129,7 @@ export const createWebpackConfig = (
       ],
     },
     plugins: [
+      ...envPlugin,
       new ForkTsCheckerWebpackPlugin({
         typescript: {
           configFile: tsconfigPath,
