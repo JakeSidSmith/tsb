@@ -2,6 +2,14 @@
 
 **Dead simple TypeScript bundler, watcher, dev server, transpiler, and polyfiller**
 
+## Install
+
+```shell
+npm i @jakesidsmith/tsb -P
+```
+
+`-P` is short for `--save-prop` and will add this to your `package.json` as a production dependency.
+
 ## Commands
 
 ```shell
