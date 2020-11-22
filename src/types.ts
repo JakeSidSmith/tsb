@@ -12,6 +12,7 @@ export interface Config {
   publicDir?: string;
   hashFiles?: boolean;
   compile?: readonly string[];
+  env?: Record<string, string>;
 }
 
 export type Mode = 'development' | 'production';
