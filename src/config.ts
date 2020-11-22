@@ -39,6 +39,7 @@ const CONFIG_VALIDATOR = yup
     publicDir: yup.string().optional(),
     hashFiles: yup.boolean().optional(),
     compile: yup.array().of(yup.string().required()).optional(),
+    env: yup.object().optional(),
   })
   .required();
 

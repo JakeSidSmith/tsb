@@ -12,7 +12,8 @@ export interface Config {
   publicDir?: string;
   hashFiles?: boolean;
   compile?: readonly string[];
-  env?: Record<string, string>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  env?: Record<string, any>;
 }
 
 export type Mode = 'development' | 'production';
