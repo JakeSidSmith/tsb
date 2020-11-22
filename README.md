@@ -13,8 +13,11 @@ npm i @jakesidsmith/tsb -P
 ## Commands
 
 ```shell
+# Run a full production build
 tsb build
+# Watch files for changes and re-compile (development)
 tsb watch
+# Start a dev server that watches for changes and automatically updates (development)
 tsb server
 ```
 
