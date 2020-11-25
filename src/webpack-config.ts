@@ -6,6 +6,7 @@ import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { Config, Mode } from './types';
 import { EXTENSIONS, MATCHES_EXTENSION, UTF8 } from './constants';
+import * as logger from './logger';
 
 interface Tsconfig {
   include: readonly string[];
@@ -29,26 +30,21 @@ export const getTsconfig = (tsconfigPath: string): Tsconfig => {
   try {
     tsconfig = JSON.parse(tsconfigContent);
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-    // eslint-disable-next-line no-console
-    console.error('Failed to parse tsconfig');
+    logger.error(error);
+    logger.error('Failed to parse tsconfig');
     return process.exit(1);
   }
 
   try {
     TSCONFIG_VALIDATOR.validateSync(tsconfig);
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error.errors.join('\n'));
-    // eslint-disable-next-line no-console
-    console.error('Invalid tsconfig.json');
+    logger.error(error.errors.join('\n'));
+    logger.error('Invalid tsconfig.json');
     return process.exit(1);
   }
 
   if (!tsconfig.include.length) {
-    // eslint-disable-next-line no-console
-    console.error('No files in tsconfig include option');
+    logger.error('No files in tsconfig include option');
     return process.exit(1);
   }
 

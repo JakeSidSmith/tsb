@@ -4,6 +4,7 @@ import * as vm from 'vm';
 import { CONFIG_FILE_NAME, PROGRAM } from './constants';
 import { Config } from './types';
 import * as yup from 'yup';
+import * as logger from './logger';
 
 interface Sandbox {
   require: typeof require;
@@ -60,22 +61,20 @@ export const getTsbConfig = (config = CONFIG_FILE_NAME): Config => {
   const sourceFile = program.getSourceFile(tsbConfigPath);
 
   if (!sourceFile) {
-    // eslint-disable-next-line no-console
-    console.error(`Could not get ${PROGRAM} config source`);
+    logger.error(`Could not get ${PROGRAM} config source`);
     return process.exit(1);
   }
 
   const preEmitDiagnostics = ts.getPreEmitDiagnostics(program, sourceFile);
 
   if (preEmitDiagnostics?.length) {
-    // eslint-disable-next-line no-console
-    console.error(
+    logger.error(
       preEmitDiagnostics
         .map((diag) => ts.flattenDiagnosticMessageText(diag.messageText, '\n'))
         .join('\n')
     );
-    // eslint-disable-next-line no-console
-    console.error(`Invalid ${CONFIG_FILE_NAME}`);
+
+    logger.error(`Invalid ${CONFIG_FILE_NAME}`);
     process.exit(1);
   }
 
@@ -91,14 +90,13 @@ export const getTsbConfig = (config = CONFIG_FILE_NAME): Config => {
   });
 
   if (transpileResult.diagnostics?.length) {
-    // eslint-disable-next-line no-console
-    console.error(
+    logger.error(
       transpileResult.diagnostics
         .map((diag) => ts.flattenDiagnosticMessageText(diag.messageText, '\n'))
         .join('\n')
     );
-    // eslint-disable-next-line no-console
-    console.error(`Invalid ${CONFIG_FILE_NAME}`);
+
+    logger.error(`Invalid ${CONFIG_FILE_NAME}`);
     process.exit(1);
   }
 
@@ -115,10 +113,9 @@ export const getTsbConfig = (config = CONFIG_FILE_NAME): Config => {
   try {
     CONFIG_VALIDATOR.validateSync(sandbox.exports.default);
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error.errors.join('\n'));
-    // eslint-disable-next-line no-console
-    console.error(`Invalid ${CONFIG_FILE_NAME}`);
+    logger.error(error.errors.join('\n'));
+
+    logger.error(`Invalid ${CONFIG_FILE_NAME}`);
     return process.exit(1);
   }
 
