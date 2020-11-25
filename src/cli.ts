@@ -44,13 +44,18 @@ collect(
       {
         description: DESCRIPTION,
         usage: `${PROGRAM} <command>`,
-        examples: [`${PROGRAM} build`, `${PROGRAM} watch`, `${PROGRAM} serve`],
+        examples: [
+          `${PROGRAM} build`,
+          `${PROGRAM} watch`,
+          `${PROGRAM} serve`,
+          `${PROGRAM} build --config custom/path/to/tsb.config.ts`,
+        ],
       },
       RequireAny(
         Command<CommonArgs>(
           'build',
           {
-            description: 'Bundle TypeScript files',
+            description: 'Bundle TypeScript files (production)',
             callback: (tree) => {
               const config = getTsbConfig(tree.kwargs.config);
               const webpackConfig = createWebpackConfig(config, 'production');
@@ -62,10 +67,11 @@ collect(
         Command<CommonArgs>(
           'watch',
           {
-            description: 'Watch TypeScript files and bundle them when changed',
             callback: () => {
               console.error('Not yet implemented');
               return process.exit(1);
+            description:
+              'Watch TypeScript files and bundle them when changed (development)',
             },
           },
           ...COMMON_ARGS
@@ -73,8 +79,7 @@ collect(
         Command<CommonArgs>(
           'serve',
           {
-            description:
-              'Run a dev server and bundle TypeScript files when changed',
+            description: 'Run a dev server and update on change (development)',
             callback: () => {
               console.error('Not yet implemented');
               return process.exit(1);
