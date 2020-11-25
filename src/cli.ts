@@ -70,13 +70,14 @@ collect(
           },
           ...COMMON_ARGS
         ),
-        Command('serve', {
+        Command<CommonArgs>('serve', {
           description:
             'Run a dev server and bundle TypeScript files when changed',
           callback: () => {
             console.error('Not yet implemented');
             return process.exit(1);
           },
+          ...COMMON_ARGS,
         })
       )
     )
