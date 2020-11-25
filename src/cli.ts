@@ -15,9 +15,8 @@ import {
 } from 'jargs';
 
 import { PROGRAM, DESCRIPTION } from './constants';
-import { getTsbConfig } from './config';
-import { createWebpackConfig } from './webpack-config';
 import build from './commands/build';
+import watch from './commands/watch';
 
 const COMMON_ARGS = [
   KWArg('config', {
@@ -57,9 +56,7 @@ collect(
           {
             description: 'Bundle TypeScript files (production)',
             callback: (tree) => {
-              const config = getTsbConfig(tree.kwargs.config);
-              const webpackConfig = createWebpackConfig(config, 'production');
-              build(webpackConfig);
+              build(tree.kwargs.config);
             },
           },
           ...COMMON_ARGS
@@ -67,11 +64,10 @@ collect(
         Command<CommonArgs>(
           'watch',
           {
-            callback: () => {
-              console.error('Not yet implemented');
-              return process.exit(1);
             description:
               'Watch TypeScript files and bundle them when changed (development)',
+            callback: (tree) => {
+              watch(tree.kwargs.config);
             },
           },
           ...COMMON_ARGS

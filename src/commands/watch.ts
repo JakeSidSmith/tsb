@@ -5,8 +5,8 @@ import { createWebpackCallback } from '../webpack-callback';
 
 const build = (configPath: string | undefined): void => {
   const config = getTsbConfig(configPath);
-  const webpackConfig = createWebpackConfig(config, 'production', false);
-  const callback = createWebpackCallback(true);
+  const webpackConfig = createWebpackConfig(config, 'development', true);
+  const callback = createWebpackCallback(false);
 
   webpack(webpackConfig, callback);
 };
