@@ -4,7 +4,9 @@ export const DESCRIPTION =
 
 export const CONFIG_FILE_NAME = `${PROGRAM}.config.ts`;
 
-export const MATCHES_EXTENSION = /\.(?:d\.ts|[tj]sx?|cjs|mjs)$/;
 export const EXTENSIONS = ['.ts', '.tsx', '.js', '.jsx', '.cjs', '.mjs'];
+export const MATCHES_EXTENSION = new RegExp(
+  `\\.(${EXTENSIONS.map((ext) => ext.substr(1)).join('|')})$`
+);
 
 export const UTF8 = 'utf8';
