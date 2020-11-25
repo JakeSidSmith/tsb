@@ -5,10 +5,10 @@ import { createWebpackCallback } from '../webpack-callback';
 
 const build = (configPath: string | undefined): void => {
   const config = getTsbConfig(configPath);
-  const webpackConfig = createWebpackConfig(config, 'production', false);
+  const webpackConfig = createWebpackConfig(config, 'production');
   const callback = createWebpackCallback(true);
 
-  webpack(webpackConfig, callback);
+  webpack(webpackConfig).run(callback);
 };
 
 export default build;

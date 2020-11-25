@@ -9,19 +9,14 @@ export const createWebpackCallback = (exit: boolean): WebpackCallback => (
 ) => {
   if (error) {
     logger.error(error);
-    logger.error('Failed to compile');
-
-    if (exit) {
-      return process.exit(1);
-    }
-  }
-
-  if (stats?.compilation.errors.length) {
+  } else if (stats?.compilation.errors.length) {
     stats.compilation.errors.forEach((compilationError) => {
       logger.error(compilationError.message);
       logger.error(compilationError.file);
     });
+  }
 
+  if (error || stats?.compilation.errors.length) {
     logger.error('Failed to compile');
 
     if (exit) {

@@ -53,8 +53,7 @@ export const getTsconfig = (tsconfigPath: string): Tsconfig => {
 
 export const createWebpackConfig = (
   config: Config,
-  mode: Mode,
-  watch: boolean
+  mode: Mode
 ): Configuration => {
   const tsconfigPath = path.resolve(
     process.cwd(),
@@ -68,7 +67,6 @@ export const createWebpackConfig = (
 
   return {
     mode,
-    watch,
     devtool: tsconfig.compilerOptions?.sourceMap ? 'source-map' : undefined,
     stats: 'errors-only',
     entry: path.resolve(process.cwd(), config.bundle.inFile),
