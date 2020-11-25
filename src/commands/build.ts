@@ -1,8 +1,6 @@
 import webpack, { Configuration } from 'webpack';
 
 const build = (webpackConfig: Configuration): void => {
-  const start = Date.now();
-
   webpack(webpackConfig, (error, stats) => {
     if (error) {
       // eslint-disable-next-line no-console
@@ -25,8 +23,21 @@ const build = (webpackConfig: Configuration): void => {
       return process.exit(1);
     }
 
-    // eslint-disable-next-line no-console
-    console.info(`Compiled in ${Date.now() - start} milliseconds`);
+    if (!stats?.compilation) {
+      // eslint-disable-next-line no-console
+      console.error(
+        "Compiled... but we couldn't get info about how long it took"
+      );
+    } else {
+      const time = (
+        (stats.compilation.endTime - stats.compilation.startTime) /
+        1000
+      ).toFixed(2);
+
+      // eslint-disable-next-line no-console
+      console.info(`Compiled in ${time} seconds`);
+    }
+
     return process.exit(0);
   });
 };
