@@ -18,6 +18,7 @@ export const createWebpackConfig = (
     env,
     bundle: { inFile: bundleInFile, outDir: bundleOutDir },
     hashFiles = true,
+    hashFilesInDev = true,
     additionalFilesToParse = [],
   } = getTsbConfig(fullConfigPath);
 
@@ -33,7 +34,9 @@ export const createWebpackConfig = (
     output: {
       path: path.resolve(configDir, bundleOutDir),
       filename: `[name].bundle${
-        hashFiles && mode !== 'development' ? '.[contenthash]' : ''
+        hashFiles && (hashFilesInDev || mode !== 'development')
+          ? '.[contenthash]'
+          : ''
       }.js`,
     },
     module: {

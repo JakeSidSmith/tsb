@@ -13,6 +13,7 @@ export interface Config {
   };
   tsconfigPath?: string;
   hashFiles?: boolean;
+  hashFilesInDev?: boolean;
   additionalFilesToParse?: readonly string[];
   env?: Record<string, unknown>;
   // Dev server options

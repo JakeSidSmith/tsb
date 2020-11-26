@@ -40,6 +40,7 @@ const CONFIG_VALIDATOR = yup
     }),
     tsconfigPath: yup.string().optional(),
     hashFiles: yup.boolean().optional(),
+    hashFilesInDev: yup.boolean().optional(),
     additionalFilesToParse: yup.array().of(yup.string().required()).optional(),
     env: yup.object<Record<string, unknown>>().optional(),
     // Dev server options
