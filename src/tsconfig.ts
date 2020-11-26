@@ -41,13 +41,17 @@ const TSCONFIG_VALIDATOR = yup
   })
   .required();
 
-export const getTsconfig = (filePath: string): Tsconfig => {
+export const getTsconfig = (
+  filePath: string
+): { raw: Tsconfig; resolved: Tsconfig } => {
   const tsconfigPath = ts.findConfigFile(filePath, ts.sys.fileExists);
 
   if (!tsconfigPath) {
     logger.error(`Could not resolve tsconfig.json at "${filePath}"`);
     return process.exit(1);
   }
+
+  const tsconfigDir = path.dirname(tsconfigPath);
 
   const tsconfig = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
 
@@ -70,7 +74,7 @@ export const getTsconfig = (filePath: string): Tsconfig => {
   }
 
   const extendedPath = validTsconfig.extends
-    ? path.resolve(path.dirname(tsconfigPath), validTsconfig.extends)
+    ? path.resolve(tsconfigDir, validTsconfig.extends)
     : null;
 
   if (extendedPath === tsconfigPath) {
@@ -83,11 +87,17 @@ export const getTsconfig = (filePath: string): Tsconfig => {
   const extended = extendedPath ? getTsconfig(extendedPath) : null;
 
   return {
-    ...extended,
-    ...validTsconfig,
-    compilerOptions: {
-      ...extended?.compilerOptions,
-      ...validTsconfig.compilerOptions,
+    raw: validTsconfig,
+    resolved: {
+      ...extended?.raw,
+      ...validTsconfig,
+      include: validTsconfig.include.map((include) =>
+        path.resolve(tsconfigDir, include)
+      ),
+      compilerOptions: {
+        ...extended?.raw.compilerOptions,
+        ...validTsconfig.compilerOptions,
+      },
     },
   };
 };

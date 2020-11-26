@@ -15,17 +15,16 @@ export const createWebpackConfig = (
     process.cwd(),
     config.tsconfig || 'tsconfig.json'
   );
-  const tsconfigDir = path.dirname(tsconfigPath);
 
   const tsconfig = getTsconfig(tsconfigPath);
 
-  if (!tsconfig.compilerOptions?.sourceMap) {
+  if (!tsconfig.resolved.compilerOptions?.sourceMap) {
     logger.warn(
       'No sourceMap enabled in tsconfig.json - source maps will not be generated'
     );
   }
 
-  if (!tsconfig.include.length) {
+  if (!tsconfig.resolved.include.length) {
     logger.error('No files in tsconfig.json include option');
     return process.exit(1);
   }
@@ -34,7 +33,9 @@ export const createWebpackConfig = (
 
   return {
     mode,
-    devtool: tsconfig.compilerOptions?.sourceMap ? 'source-map' : undefined,
+    devtool: tsconfig.resolved.compilerOptions?.sourceMap
+      ? 'source-map'
+      : undefined,
     stats: 'errors-only',
     entry: path.resolve(process.cwd(), config.bundle.inFile),
     output: {
@@ -45,13 +46,11 @@ export const createWebpackConfig = (
       rules: [
         {
           test: MATCHES_EXTENSION,
-          include: [...tsconfig.include]
-            .map((include) => path.resolve(tsconfigDir, include))
-            .concat(
-              [...(config.compile || [])].map((comp) =>
-                path.resolve(process.cwd(), comp)
-              )
-            ),
+          include: [...tsconfig.resolved.include].concat(
+            [...(config.compile || [])].map((comp) =>
+              path.resolve(process.cwd(), comp)
+            )
+          ),
           use: [
             {
               loader: 'babel-loader',
