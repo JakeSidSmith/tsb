@@ -12,8 +12,7 @@ export interface Config {
   publicDir?: string;
   hashFiles?: boolean;
   additionalFilesToParse?: readonly string[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  env?: Record<string, any>;
+  env?: Record<string, unknown>;
 }
 
 export type Mode = 'development' | 'production';
