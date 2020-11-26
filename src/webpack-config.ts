@@ -18,7 +18,7 @@ export const createWebpackConfig = (
     env,
     bundle: { inFile: bundleInFile, outDir: bundleOutDir },
     hashFiles = true,
-    hashFilesInDev = true,
+    hashFilesInDev = false,
     additionalFilesToParse = [],
   } = getTsbConfig(fullConfigPath);
 
