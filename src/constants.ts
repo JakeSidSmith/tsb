@@ -8,5 +8,3 @@ export const EXTENSIONS = ['.ts', '.tsx', '.js', '.jsx', '.cjs', '.mjs'];
 export const MATCHES_EXTENSION = new RegExp(
   `\\.(${EXTENSIONS.map((ext) => ext.substr(1)).join('|')})$`
 );
-
-export const UTF8 = 'utf8';

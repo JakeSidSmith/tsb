@@ -1,11 +1,11 @@
 import * as path from 'path';
-import * as fs from 'fs';
 import * as yup from 'yup';
+import * as ts from 'typescript';
 import { Configuration, EnvironmentPlugin } from 'webpack';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { Config, Mode } from './types';
-import { EXTENSIONS, MATCHES_EXTENSION, UTF8 } from './constants';
+import { EXTENSIONS, MATCHES_EXTENSION } from './constants';
 import * as logger from './logger';
 
 type JSX = 'preserve' | 'react' | 'react-jsx' | 'react-jsxdev' | 'react-native';
@@ -46,33 +46,47 @@ const TSCONFIG_VALIDATOR = yup
   })
   .required();
 
-export const getTsconfig = (tsconfigPath: string): Tsconfig => {
-  const tsconfigContent = fs.readFileSync(tsconfigPath, UTF8);
+export const getTsconfig = (filePath: string): Tsconfig => {
+  const tsconfigPath = ts.findConfigFile(filePath, ts.sys.fileExists);
 
-  let tsconfig: Tsconfig;
-
-  try {
-    tsconfig = JSON.parse(tsconfigContent);
-  } catch (error) {
-    logger.error(error);
-    logger.error('Failed to parse tsconfig');
+  if (!tsconfigPath) {
+    logger.error(`Could not resolve tsconfig.json at "${filePath}"`);
     return process.exit(1);
   }
 
+  const tsconfig = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
+
+  if (tsconfig.error) {
+    logger.error(
+      ts.flattenDiagnosticMessageText(tsconfig.error.messageText, '\n')
+    );
+    return process.exit(1);
+  }
+
+  const validTsconfig: Tsconfig = tsconfig.config;
+
   try {
-    TSCONFIG_VALIDATOR.validateSync(tsconfig);
+    TSCONFIG_VALIDATOR.validateSync(validTsconfig);
   } catch (error) {
     logger.error(error.errors.join('\n'));
     logger.error('Invalid tsconfig.json');
     return process.exit(1);
   }
 
-  if (!tsconfig.include.length) {
-    logger.error('No files in tsconfig include option');
-    return process.exit(1);
-  }
+  const extended = validTsconfig.extends
+    ? getTsconfig(
+        path.resolve(path.dirname(tsconfigPath), validTsconfig.extends)
+      )
+    : null;
 
-  return tsconfig;
+  return {
+    ...extended,
+    ...validTsconfig,
+    compilerOptions: {
+      ...extended?.compilerOptions,
+      ...validTsconfig.compilerOptions,
+    },
+  };
 };
 
 export const createWebpackConfig = (
@@ -86,6 +100,17 @@ export const createWebpackConfig = (
   const tsconfigDir = path.dirname(tsconfigPath);
 
   const tsconfig = getTsconfig(tsconfigPath);
+
+  if (!tsconfig.compilerOptions?.sourceMap) {
+    logger.warn(
+      'No sourceMap enabled in tsconfig.json - source maps will not be generated'
+    );
+  }
+
+  if (!tsconfig.include.length) {
+    logger.error('No files in tsconfig.json include option');
+    return process.exit(1);
+  }
 
   const envPlugin = config.env ? [new EnvironmentPlugin(config.env)] : [];
 
