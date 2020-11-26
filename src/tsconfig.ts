@@ -107,7 +107,7 @@ export const getTsconfig = (configPath: string): Tsconfig => {
   ) {
     logger.warn(
       `Your tsconfig.json module was set to "${resolved.compilerOptions.module}".
-You should target an ES module type e.g. "ESNext" to get the full benefits of dead code elimination.
+You should target an ES module type e.g. "ESNext" to get the full benefits of this bundler.
 We'll handle converting everything to CommonJS for you.`
     );
   }
