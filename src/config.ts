@@ -14,6 +14,7 @@ interface Sandbox {
 const CONFIG_VALIDATOR = yup
   .object()
   .shape<Config>({
+    // Required
     bundle: yup
       .object()
       .shape<Config['bundle']>({
@@ -22,6 +23,7 @@ const CONFIG_VALIDATOR = yup
         publicDir: yup.string().optional(),
       })
       .required(),
+    // Base options
     indexHTML: yup.lazy<Required<Config>['indexHTML'] | undefined>((value) => {
       if (value) {
         return yup
