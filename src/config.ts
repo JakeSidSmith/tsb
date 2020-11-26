@@ -37,12 +37,28 @@ const CONFIG_VALIDATOR = yup
       return yup.mixed<undefined>().optional();
     }),
     tsconfigPath: yup.string().optional(),
-    port: yup.string().optional(),
-    publicDir: yup.string().optional(),
     hashFiles: yup.boolean().optional(),
-    hotReload: yup.boolean().optional(),
     additionalFilesToParse: yup.array().of(yup.string().required()).optional(),
     env: yup.object<Record<string, unknown>>().optional(),
+    // Dev server options
+    hotReload: yup.boolean().optional(),
+    host: yup.string().optional(),
+    port: yup.string().optional(),
+    publicDir: yup.string().optional(),
+    singlePageApp: yup.boolean().optional(),
+    headers: yup.lazy<Record<string, string> | undefined>((value) => {
+      if (value) {
+        const keys: Record<string, yup.StringSchema<string>> = {};
+
+        Object.keys(value).forEach((key) => {
+          keys[key] = yup.string().required();
+        });
+
+        return yup.object().shape(keys).required();
+      }
+
+      return yup.mixed<undefined>().optional();
+    }),
   })
   .required();
 
