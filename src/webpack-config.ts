@@ -79,7 +79,7 @@ export const createWebpackConfig = (
       extensions: EXTENSIONS,
       plugins: [
         new TsconfigPathsPlugin({
-          configFile: tsconfigPath,
+          configFile: fullTsconfigPath,
           extensions: EXTENSIONS,
         }),
       ],
@@ -91,7 +91,7 @@ export const createWebpackConfig = (
       }),
       new ForkTsCheckerWebpackPlugin({
         typescript: {
-          configFile: tsconfigPath,
+          configFile: fullTsconfigPath,
         },
       }),
     ],
