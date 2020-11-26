@@ -124,8 +124,8 @@ export const createWebpackConfig = (
           },
         }),
         new HtmlWebpackPlugin({
-          filename: path.resolve(fullConfigPath, indexOutDir, 'index.html'),
           template: path.resolve(fullConfigPath, indexInFile),
+          filename: path.resolve(fullConfigPath, indexOutDir, 'index.html'),
           alwaysWriteToDisk: mode === 'production' || indexOutputInDev,
         }),
         new HtmlWebpackHarddiskPlugin(),
