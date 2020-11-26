@@ -25,8 +25,6 @@ export const createWebpackConfig = (
 
   const tsconfig = getTsconfig(fullTsconfigPath);
 
-  const envPlugin = env ? [new EnvironmentPlugin(env)] : [];
-
   return {
     mode,
     devtool: tsconfig.compilerOptions?.sourceMap ? 'source-map' : undefined,
@@ -87,7 +85,10 @@ export const createWebpackConfig = (
       ],
     },
     plugins: [
-      ...envPlugin,
+      new EnvironmentPlugin({
+        NODE_ENV: mode === 'production' ? mode : 'development',
+        ...env,
+      }),
       new ForkTsCheckerWebpackPlugin({
         typescript: {
           configFile: tsconfigPath,
