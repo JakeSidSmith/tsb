@@ -7,6 +7,8 @@ import { CONFIG_FILE_NAME, EXTENSIONS, MATCHES_EXTENSION } from './constants';
 import { getTsconfig } from './tsconfig';
 import { getTsbConfig } from './config';
 import { Configuration as DevServerConfiguration } from 'webpack-dev-server';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin';
 
 export const createWebpackConfig = (
   configPath = CONFIG_FILE_NAME,
@@ -21,6 +23,11 @@ export const createWebpackConfig = (
       outDir: bundleOutDir,
       publicDir: bundlePublicDir,
     },
+    indexHTML: {
+      inFile: indexInFile = 'index.html',
+      outDir: indexOutDir = '.',
+      outputInDev: indexOutputInDev = false,
+    } = {},
     // Base options
     tsconfigPath = 'tsconfig.json',
     hashFiles = true,
@@ -116,6 +123,12 @@ export const createWebpackConfig = (
             configFile: fullTsconfigPath,
           },
         }),
+        new HtmlWebpackPlugin({
+          filename: path.resolve(fullConfigPath, indexOutDir, 'index.html'),
+          template: path.resolve(fullConfigPath, indexInFile),
+          alwaysWriteToDisk: mode === 'production' || indexOutputInDev,
+        }),
+        new HtmlWebpackHarddiskPlugin(),
       ],
     },
     devServer: {
