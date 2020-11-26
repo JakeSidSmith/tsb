@@ -49,16 +49,7 @@ export const createWebpackConfig = (
     outputInDev: indexOutputInDev = false,
   } = indexHTML ?? {};
 
-  const indexHTMLPlugins = indexHTML
-    ? [
-        new HtmlWebpackPlugin({
-          template: path.resolve(fullConfigPath, indexInFile),
-          filename: path.resolve(fullConfigPath, indexOutDir, 'index.html'),
-          alwaysWriteToDisk: mode === 'production' || indexOutputInDev,
-        }),
-        new HtmlWebpackHarddiskPlugin(),
-      ]
-    : [];
+  const shouldOutputHTML = Boolean(indexOutputInDev || mode === 'production');
 
   return {
     base: {
@@ -136,7 +127,20 @@ export const createWebpackConfig = (
             configFile: fullTsconfigPath,
           },
         }),
-        ...indexHTMLPlugins,
+        new HtmlWebpackPlugin(
+          indexHTML
+            ? {
+                template: path.resolve(fullConfigPath, indexInFile),
+                filename: path.resolve(
+                  fullConfigPath,
+                  indexOutDir,
+                  'index.html'
+                ),
+                alwaysWriteToDisk: shouldOutputHTML,
+              }
+            : {}
+        ),
+        new HtmlWebpackHarddiskPlugin(),
       ],
     },
     devServer: {
