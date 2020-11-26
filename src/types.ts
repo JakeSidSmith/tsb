@@ -19,7 +19,7 @@ export interface Config {
   // Dev server options
   hotReload?: boolean;
   host?: string;
-  port?: string;
+  port?: number;
   publicDir?: string;
   singlePageApp?: boolean;
   headers?: Record<string, string>;

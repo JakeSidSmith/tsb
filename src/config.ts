@@ -46,7 +46,7 @@ const CONFIG_VALIDATOR = yup
     // Dev server options
     hotReload: yup.boolean().optional(),
     host: yup.string().optional(),
-    port: yup.string().optional(),
+    port: yup.number().optional(),
     publicDir: yup.string().optional(),
     singlePageApp: yup.boolean().optional(),
     headers: yup.lazy<Record<string, string> | undefined>((value) => {

@@ -6,7 +6,7 @@ const build = (configPath: string | undefined): void => {
   const webpackConfig = createWebpackConfig(configPath, 'development');
   const callback = createWebpackCallback(false);
 
-  webpack(webpackConfig).watch({}, callback);
+  webpack(webpackConfig.base).watch({}, callback);
 };
 
 export default build;
