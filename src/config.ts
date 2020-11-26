@@ -1,5 +1,4 @@
 import * as ts from 'typescript';
-import * as path from 'path';
 import * as vm from 'vm';
 import { CONFIG_FILE_NAME, PROGRAM } from './constants';
 import { Config } from './types';
@@ -44,11 +43,9 @@ const CONFIG_VALIDATOR = yup
   })
   .required();
 
-export const getTsbConfig = (config = CONFIG_FILE_NAME): Config => {
-  const tsbConfigPath = path.resolve(process.cwd(), config);
-
+export const getTsbConfig = (configPath: string): Config => {
   const program = ts.createProgram({
-    rootNames: [tsbConfigPath],
+    rootNames: [configPath],
     options: {
       strict: true,
       noEmit: true,
@@ -58,7 +55,7 @@ export const getTsbConfig = (config = CONFIG_FILE_NAME): Config => {
     },
   });
 
-  const sourceFile = program.getSourceFile(tsbConfigPath);
+  const sourceFile = program.getSourceFile(configPath);
 
   if (!sourceFile) {
     logger.error(`Could not get ${PROGRAM} config source`);
@@ -79,7 +76,7 @@ export const getTsbConfig = (config = CONFIG_FILE_NAME): Config => {
   }
 
   const transpileResult = ts.transpileModule(sourceFile.getText(), {
-    fileName: tsbConfigPath,
+    fileName: configPath,
     compilerOptions: {
       strict: true,
       noEmit: true,
@@ -101,7 +98,7 @@ export const getTsbConfig = (config = CONFIG_FILE_NAME): Config => {
   }
 
   const script = new vm.Script(transpileResult.outputText, {
-    filename: tsbConfigPath,
+    filename: configPath,
   });
   const sandbox: Sandbox = {
     require,

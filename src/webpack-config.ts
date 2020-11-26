@@ -2,17 +2,22 @@ import * as path from 'path';
 import { Configuration, EnvironmentPlugin } from 'webpack';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import { Config, Mode } from './types';
-import { EXTENSIONS, MATCHES_EXTENSION } from './constants';
+import { Mode } from './types';
+import { CONFIG_FILE_NAME, EXTENSIONS, MATCHES_EXTENSION } from './constants';
 import * as logger from './logger';
 import { getTsconfig } from './tsconfig';
+import { getTsbConfig } from './config';
 
 export const createWebpackConfig = (
-  config: Config,
+  configPath = CONFIG_FILE_NAME,
   mode: Mode
 ): Configuration => {
+  const fullConfigPath = path.resolve(process.cwd(), configPath);
+  const configDir = path.dirname(fullConfigPath);
+  const config = getTsbConfig(fullConfigPath);
+
   const tsconfigPath = path.resolve(
-    process.cwd(),
+    configDir,
     config.tsconfig || 'tsconfig.json'
   );
 
@@ -37,9 +42,9 @@ export const createWebpackConfig = (
       ? 'source-map'
       : undefined,
     stats: 'errors-only',
-    entry: path.resolve(process.cwd(), config.bundle.inFile),
+    entry: path.resolve(configDir, config.bundle.inFile),
     output: {
-      path: path.resolve(process.cwd(), config.bundle.outDir),
+      path: path.resolve(configDir, config.bundle.outDir),
       filename: `bundle${config.hashFiles ? '.[contenthash]' : ''}.js`,
     },
     module: {
@@ -48,7 +53,7 @@ export const createWebpackConfig = (
           test: MATCHES_EXTENSION,
           include: [...tsconfig.resolved.include].concat(
             [...(config.compile || [])].map((comp) =>
-              path.resolve(process.cwd(), comp)
+              path.resolve(configDir, comp)
             )
           ),
           use: [
