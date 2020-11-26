@@ -43,6 +43,16 @@ export const createWebpackConfig = (
 
   const tsconfig = getTsconfig(fullTsconfigPath);
 
+  const isReactAppDev = Boolean(
+    tsconfig.compilerOptions?.jsx?.startsWith('react') && mode === 'development'
+  );
+
+  const additionalEntries = isReactAppDev ? ['react-hot-loader'] : [];
+  const babelPlugins = isReactAppDev ? ['react-hot-loader/babel'] : [];
+  const alias: Record<string, string> = isReactAppDev
+    ? { ['react-dom']: '@hot-loader/react-dom' }
+    : {};
+
   const {
     inFile: indexInFile = 'index.html',
     outDir: indexOutDir = '.',
@@ -56,7 +66,7 @@ export const createWebpackConfig = (
       mode,
       devtool: tsconfig.compilerOptions?.sourceMap ? 'source-map' : undefined,
       stats: 'errors-only',
-      entry: path.resolve(configDir, bundleInFile),
+      entry: [...additionalEntries, path.resolve(configDir, bundleInFile)],
       output: {
         path: path.resolve(configDir, bundleOutDir),
         filename: `[name].bundle${
@@ -96,6 +106,7 @@ export const createWebpackConfig = (
                       },
                     ],
                   ],
+                  plugins: babelPlugins,
                 },
               },
               {
@@ -116,6 +127,7 @@ export const createWebpackConfig = (
             extensions: EXTENSIONS,
           }),
         ],
+        alias,
       },
       plugins: [
         new EnvironmentPlugin({

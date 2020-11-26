@@ -6,7 +6,8 @@
     "paths": {
       "alias": ["src/aliased.ts"],
       "not-yup": ["../node_modules/yup", "../node_modules/@types/yup"]
-    }
+    },
+    "jsx": "react"
   },
   "include": ["src"]
 }
