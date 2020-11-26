@@ -12,6 +12,7 @@ type JSX = 'preserve' | 'react' | 'react-jsx' | 'react-jsxdev' | 'react-native';
 
 interface Tsconfig {
   include: readonly string[];
+  extends?: string;
   compilerOptions?: {
     jsx?: JSX;
     sourceMap?: boolean;
@@ -21,6 +22,7 @@ interface Tsconfig {
 const TSCONFIG_VALIDATOR = yup
   .object()
   .shape<Tsconfig>({
+    extends: yup.string().optional(),
     include: yup.array().of(yup.string().required()).required(),
     compilerOptions: yup.lazy<Tsconfig['compilerOptions']>((value) => {
       if (value) {
