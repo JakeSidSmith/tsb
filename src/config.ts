@@ -19,6 +19,7 @@ const CONFIG_VALIDATOR = yup
       .shape<Config['bundle']>({
         inFile: yup.string().required(),
         outDir: yup.string().required(),
+        publicDir: yup.string().optional(),
       })
       .required(),
     indexHTML: yup.lazy<Required<Config>['indexHTML'] | undefined>((value) => {
@@ -28,6 +29,7 @@ const CONFIG_VALIDATOR = yup
           .shape<Required<Config>['indexHTML']>({
             inFile: yup.string().required(),
             outDir: yup.string().optional(),
+            outputInDev: yup.boolean().optional(),
           })
           .required();
       }
@@ -38,6 +40,7 @@ const CONFIG_VALIDATOR = yup
     port: yup.string().optional(),
     publicDir: yup.string().optional(),
     hashFiles: yup.boolean().optional(),
+    hotReload: yup.boolean().optional(),
     additionalFilesToParse: yup.array().of(yup.string().required()).optional(),
     env: yup.object<Record<string, unknown>>().optional(),
   })

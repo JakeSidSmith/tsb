@@ -2,15 +2,18 @@ export interface Config {
   bundle: {
     inFile: string;
     outDir: string;
+    publicDir?: string;
   };
   indexHTML?: {
     inFile: string;
     outDir?: string;
+    outputInDev?: boolean;
   };
   tsconfigPath?: string;
   port?: string;
   publicDir?: string;
   hashFiles?: boolean;
+  hotReload?: boolean;
   additionalFilesToParse?: readonly string[];
   env?: Record<string, unknown>;
 }
