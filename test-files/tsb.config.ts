@@ -7,7 +7,7 @@ const config: Config = {
     outDir: path.resolve(process.cwd(), 'test-files/build/'),
   },
   tsconfigPath: path.resolve(process.cwd(), 'test-files/tsconfig.json'),
-  hashFiles: false,
+  hashFiles: true,
   env: {
     TEST: undefined,
   },
