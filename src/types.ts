@@ -3,15 +3,15 @@ export interface Config {
     inFile: string;
     outDir: string;
   };
-  index?: {
+  indexHTML?: {
     inFile: string;
-    outDir: string;
+    outDir?: string;
   };
-  tsconfig?: string;
+  tsconfigPath?: string;
   port?: string;
   publicDir?: string;
   hashFiles?: boolean;
-  compile?: readonly string[];
+  additionalFilesToParse?: readonly string[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   env?: Record<string, any>;
 }

@@ -18,7 +18,7 @@ export const createWebpackConfig = (
 
   const tsconfigPath = path.resolve(
     configDir,
-    config.tsconfig || 'tsconfig.json'
+    config.tsconfigPath || 'tsconfig.json'
   );
 
   const tsconfig = getTsconfig(tsconfigPath);
@@ -52,7 +52,7 @@ export const createWebpackConfig = (
         {
           test: MATCHES_EXTENSION,
           include: [...tsconfig.resolved.include].concat(
-            [...(config.compile || [])].map((comp) =>
+            [...(config.additionalFilesToParse || [])].map((comp) =>
               path.resolve(configDir, comp)
             )
           ),

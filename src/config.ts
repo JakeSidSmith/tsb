@@ -21,24 +21,24 @@ const CONFIG_VALIDATOR = yup
         outDir: yup.string().required(),
       })
       .required(),
-    index: yup.lazy<Required<Config>['index'] | undefined>((value) => {
+    indexHTML: yup.lazy<Required<Config>['indexHTML'] | undefined>((value) => {
       if (value) {
         return yup
           .object()
-          .shape<Required<Config>['index']>({
+          .shape<Required<Config>['indexHTML']>({
             inFile: yup.string().required(),
-            outDir: yup.string().required(),
+            outDir: yup.string().optional(),
           })
           .required();
       }
 
       return yup.mixed<undefined>().optional();
     }),
-    tsconfig: yup.string().optional(),
+    tsconfigPath: yup.string().optional(),
     port: yup.string().optional(),
     publicDir: yup.string().optional(),
     hashFiles: yup.boolean().optional(),
-    compile: yup.array().of(yup.string().required()).optional(),
+    additionalFilesToParse: yup.array().of(yup.string().required()).optional(),
     env: yup.object().optional(),
   })
   .required();
