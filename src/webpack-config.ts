@@ -23,11 +23,7 @@ export const createWebpackConfig = (
       outDir: bundleOutDir,
       publicDir: bundlePublicDir,
     },
-    indexHTML: {
-      inFile: indexInFile = 'index.html',
-      outDir: indexOutDir = '.',
-      outputInDev: indexOutputInDev = false,
-    } = {},
+    indexHTML,
     // Base options
     tsconfigPath = 'tsconfig.json',
     hashFiles = true,
@@ -46,6 +42,23 @@ export const createWebpackConfig = (
   const fullTsconfigPath = path.resolve(configDir, tsconfigPath);
 
   const tsconfig = getTsconfig(fullTsconfigPath);
+
+  const {
+    inFile: indexInFile = 'index.html',
+    outDir: indexOutDir = '.',
+    outputInDev: indexOutputInDev = false,
+  } = indexHTML ?? {};
+
+  const indexHTMLPlugins = indexHTML
+    ? [
+        new HtmlWebpackPlugin({
+          template: path.resolve(fullConfigPath, indexInFile),
+          filename: path.resolve(fullConfigPath, indexOutDir, 'index.html'),
+          alwaysWriteToDisk: mode === 'production' || indexOutputInDev,
+        }),
+        new HtmlWebpackHarddiskPlugin(),
+      ]
+    : [];
 
   return {
     base: {
@@ -123,12 +136,7 @@ export const createWebpackConfig = (
             configFile: fullTsconfigPath,
           },
         }),
-        new HtmlWebpackPlugin({
-          template: path.resolve(fullConfigPath, indexInFile),
-          filename: path.resolve(fullConfigPath, indexOutDir, 'index.html'),
-          alwaysWriteToDisk: mode === 'production' || indexOutputInDev,
-        }),
-        new HtmlWebpackHarddiskPlugin(),
+        ...indexHTMLPlugins,
       ],
     },
     devServer: {
