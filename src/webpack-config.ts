@@ -13,32 +13,37 @@ export const createWebpackConfig = (
 ): Configuration => {
   const fullConfigPath = path.resolve(process.cwd(), configPath);
   const configDir = path.dirname(fullConfigPath);
-  const config = getTsbConfig(fullConfigPath);
+  const {
+    tsconfigPath = 'tsconfig.json',
+    env,
+    bundle: { inFile: bundleInFile, outDir: bundleOutDir },
+    hashFiles = true,
+    additionalFilesToParse = [],
+  } = getTsbConfig(fullConfigPath);
 
-  const tsconfigPath = path.resolve(
-    configDir,
-    config.tsconfigPath || 'tsconfig.json'
-  );
+  const fullTsconfigPath = path.resolve(configDir, tsconfigPath);
 
-  const tsconfig = getTsconfig(tsconfigPath);
+  const tsconfig = getTsconfig(fullTsconfigPath);
 
-  const envPlugin = config.env ? [new EnvironmentPlugin(config.env)] : [];
+  const envPlugin = env ? [new EnvironmentPlugin(env)] : [];
 
   return {
     mode,
     devtool: tsconfig.compilerOptions?.sourceMap ? 'source-map' : undefined,
     stats: 'errors-only',
-    entry: path.resolve(configDir, config.bundle.inFile),
+    entry: path.resolve(configDir, bundleInFile),
     output: {
-      path: path.resolve(configDir, config.bundle.outDir),
-      filename: `bundle${config.hashFiles ? '.[contenthash]' : ''}.js`,
+      path: path.resolve(configDir, bundleOutDir),
+      filename: `[name].bundle${
+        hashFiles && mode !== 'development' ? '.[contenthash]' : ''
+      }.js`,
     },
     module: {
       rules: [
         {
           test: MATCHES_EXTENSION,
           include: [...tsconfig.include].concat(
-            [...(config.additionalFilesToParse || [])].map((comp) =>
+            [...additionalFilesToParse].map((comp) =>
               path.resolve(configDir, comp)
             )
           ),
