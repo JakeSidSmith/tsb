@@ -60,6 +60,7 @@ export const getTsconfig = (filePath: string): Tsconfig => {
     logger.error(
       ts.flattenDiagnosticMessageText(tsconfig.error.messageText, '\n')
     );
+    logger.error(`Error reading tsconfig.json at "${tsconfigPath}"`);
     return process.exit(1);
   }
 
@@ -69,15 +70,22 @@ export const getTsconfig = (filePath: string): Tsconfig => {
     TSCONFIG_VALIDATOR.validateSync(validTsconfig);
   } catch (error) {
     logger.error(error.errors.join('\n'));
-    logger.error('Invalid tsconfig.json');
+    logger.error(`Invalid tsconfig.json at "${tsconfigPath}"`);
     return process.exit(1);
   }
 
-  const extended = validTsconfig.extends
-    ? getTsconfig(
-        path.resolve(path.dirname(tsconfigPath), validTsconfig.extends)
-      )
+  const extendedPath = validTsconfig.extends
+    ? path.resolve(path.dirname(tsconfigPath), validTsconfig.extends)
     : null;
+
+  if (extendedPath === tsconfigPath) {
+    logger.error(
+      `Invalid tsconfig.json at "${tsconfigPath}" - cannot extend itself`
+    );
+    return process.exit(1);
+  }
+
+  const extended = extendedPath ? getTsconfig(extendedPath) : null;
 
   return {
     ...extended,
