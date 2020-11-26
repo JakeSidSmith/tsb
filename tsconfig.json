@@ -12,7 +12,7 @@
     "esModuleInterop": true,
     "target": "ES2015",
     "moduleResolution": "Node",
-    "module": "CommonJS"
+    "module": "ESNext"
   },
   "include": ["src", "tests"]
 }

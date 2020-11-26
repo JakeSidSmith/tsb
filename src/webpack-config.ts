@@ -30,8 +30,21 @@ export const createWebpackConfig = (
   }
 
   if (!tsconfig.resolved.include.length) {
-    logger.error('No files in tsconfig.json include option');
+    logger.error(
+      'No files in tsconfig.json include option - specify some files to parse'
+    );
     return process.exit(1);
+  }
+
+  if (
+    tsconfig.resolved.compilerOptions?.module &&
+    !tsconfig.resolved.compilerOptions.module.toLowerCase().startsWith('es')
+  ) {
+    logger.warn(
+      `Your tsconfig.json module was set to "${tsconfig.resolved.compilerOptions.module}".
+You should target an ES module type e.g. "ESNext" to get the full benefits of dead code elimination.
+We'll handle converting everything to CommonJS for you.`
+    );
   }
 
   const envPlugin = config.env ? [new EnvironmentPlugin(config.env)] : [];

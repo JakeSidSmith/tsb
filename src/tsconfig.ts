@@ -15,6 +15,7 @@ const TSCONFIG_VALIDATOR = yup
         return yup.object().shape({
           jsx: yup.mixed().oneOf(VALID_JSX_OPTIONS).optional(),
           sourceMap: yup.boolean().optional(),
+          module: yup.string().optional(),
         });
       }
 

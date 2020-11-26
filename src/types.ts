@@ -31,5 +31,6 @@ export interface Tsconfig {
   compilerOptions?: {
     jsx?: JSX;
     sourceMap?: boolean;
+    module?: string;
   };
 }
