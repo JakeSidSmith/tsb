@@ -2,17 +2,8 @@ import * as yup from 'yup';
 import * as path from 'path';
 import * as ts from 'typescript';
 import * as logger from './logger';
-
-type JSX = 'preserve' | 'react' | 'react-jsx' | 'react-jsxdev' | 'react-native';
-
-interface Tsconfig {
-  include: readonly string[];
-  extends?: string;
-  compilerOptions?: {
-    jsx?: JSX;
-    sourceMap?: boolean;
-  };
-}
+import { Tsconfig } from './types';
+import { VALID_JSX_OPTIONS } from './constants';
 
 const TSCONFIG_VALIDATOR = yup
   .object()
@@ -22,16 +13,7 @@ const TSCONFIG_VALIDATOR = yup
     compilerOptions: yup.lazy<Tsconfig['compilerOptions']>((value) => {
       if (value) {
         return yup.object().shape({
-          jsx: yup
-            .mixed()
-            .oneOf<JSX>([
-              'preserve',
-              'react',
-              'react-jsx',
-              'react-jsxdev',
-              'react-native',
-            ])
-            .optional(),
+          jsx: yup.mixed().oneOf(VALID_JSX_OPTIONS).optional(),
           sourceMap: yup.boolean().optional(),
         });
       }

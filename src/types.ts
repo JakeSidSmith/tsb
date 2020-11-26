@@ -17,3 +17,19 @@ export interface Config {
 }
 
 export type Mode = 'development' | 'production';
+
+export type JSX =
+  | 'preserve'
+  | 'react'
+  | 'react-jsx'
+  | 'react-jsxdev'
+  | 'react-native';
+
+export interface Tsconfig {
+  include: readonly string[];
+  extends?: string;
+  compilerOptions?: {
+    jsx?: JSX;
+    sourceMap?: boolean;
+  };
+}
