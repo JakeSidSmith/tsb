@@ -8,9 +8,12 @@ import { Config, Mode } from './types';
 import { EXTENSIONS, MATCHES_EXTENSION, UTF8 } from './constants';
 import * as logger from './logger';
 
+type JSX = 'preserve' | 'react' | 'react-jsx' | 'react-jsxdev' | 'react-native';
+
 interface Tsconfig {
   include: readonly string[];
   compilerOptions?: {
+    jsx?: JSX;
     sourceMap?: boolean;
   };
 }
@@ -19,6 +22,25 @@ const TSCONFIG_VALIDATOR = yup
   .object()
   .shape<Tsconfig>({
     include: yup.array().of(yup.string().required()).required(),
+    compilerOptions: yup.lazy<Tsconfig['compilerOptions']>((value) => {
+      if (value) {
+        return yup.object().shape({
+          jsx: yup
+            .mixed()
+            .oneOf<JSX>([
+              'preserve',
+              'react',
+              'react-jsx',
+              'react-jsxdev',
+              'react-native',
+            ])
+            .optional(),
+          sourceMap: yup.boolean().optional(),
+        });
+      }
+
+      return yup.mixed<undefined>().optional();
+    }),
   })
   .required();
 
