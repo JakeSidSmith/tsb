@@ -4,7 +4,6 @@ import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { Mode } from './types';
 import { CONFIG_FILE_NAME, EXTENSIONS, MATCHES_EXTENSION } from './constants';
-import * as logger from './logger';
 import { getTsconfig } from './tsconfig';
 import { getTsbConfig } from './config';
 
@@ -23,37 +22,11 @@ export const createWebpackConfig = (
 
   const tsconfig = getTsconfig(tsconfigPath);
 
-  if (!tsconfig.resolved.compilerOptions?.sourceMap) {
-    logger.warn(
-      'No sourceMap enabled in tsconfig.json - source maps will not be generated'
-    );
-  }
-
-  if (!tsconfig.resolved.include.length) {
-    logger.error(
-      'No files in tsconfig.json include option - specify some files to parse'
-    );
-    return process.exit(1);
-  }
-
-  if (
-    tsconfig.resolved.compilerOptions?.module &&
-    !tsconfig.resolved.compilerOptions.module.toLowerCase().startsWith('es')
-  ) {
-    logger.warn(
-      `Your tsconfig.json module was set to "${tsconfig.resolved.compilerOptions.module}".
-You should target an ES module type e.g. "ESNext" to get the full benefits of dead code elimination.
-We'll handle converting everything to CommonJS for you.`
-    );
-  }
-
   const envPlugin = config.env ? [new EnvironmentPlugin(config.env)] : [];
 
   return {
     mode,
-    devtool: tsconfig.resolved.compilerOptions?.sourceMap
-      ? 'source-map'
-      : undefined,
+    devtool: tsconfig.compilerOptions?.sourceMap ? 'source-map' : undefined,
     stats: 'errors-only',
     entry: path.resolve(configDir, config.bundle.inFile),
     output: {
@@ -64,7 +37,7 @@ We'll handle converting everything to CommonJS for you.`
       rules: [
         {
           test: MATCHES_EXTENSION,
-          include: [...tsconfig.resolved.include].concat(
+          include: [...tsconfig.include].concat(
             [...(config.additionalFilesToParse || [])].map((comp) =>
               path.resolve(configDir, comp)
             )

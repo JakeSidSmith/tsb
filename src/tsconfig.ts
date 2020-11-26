@@ -24,7 +24,7 @@ const TSCONFIG_VALIDATOR = yup
   })
   .required();
 
-export const getTsconfig = (
+export const resolveTsconfig = (
   filePath: string
 ): { raw: Tsconfig; resolved: Tsconfig } => {
   const tsconfigPath = ts.findConfigFile(filePath, ts.sys.fileExists);
@@ -67,7 +67,7 @@ export const getTsconfig = (
     return process.exit(1);
   }
 
-  const extended = extendedPath ? getTsconfig(extendedPath) : null;
+  const extended = extendedPath ? resolveTsconfig(extendedPath) : null;
 
   return {
     raw: validTsconfig,
@@ -83,4 +83,34 @@ export const getTsconfig = (
       },
     },
   };
+};
+
+export const getTsconfig = (configPath: string): Tsconfig => {
+  const { resolved } = resolveTsconfig(configPath);
+
+  if (!resolved.compilerOptions?.sourceMap) {
+    logger.warn(
+      'No sourceMap enabled in tsconfig.json - source maps will not be generated'
+    );
+  }
+
+  if (!resolved.include.length) {
+    logger.error(
+      'No files in tsconfig.json include option - specify some files to parse'
+    );
+    return process.exit(1);
+  }
+
+  if (
+    resolved.compilerOptions?.module &&
+    !resolved.compilerOptions.module.toLowerCase().startsWith('es')
+  ) {
+    logger.warn(
+      `Your tsconfig.json module was set to "${resolved.compilerOptions.module}".
+You should target an ES module type e.g. "ESNext" to get the full benefits of dead code elimination.
+We'll handle converting everything to CommonJS for you.`
+    );
+  }
+
+  return resolved;
 };
