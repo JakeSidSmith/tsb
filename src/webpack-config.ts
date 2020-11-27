@@ -150,6 +150,9 @@ export const createWebpackConfig = (
               }
             : {
                 alwaysWriteToDisk: shouldOutputHTML,
+                meta: {
+                  viewport: 'width=device-width, initial-scale=1',
+                },
               }
         ),
         new HtmlWebpackHarddiskPlugin(),
