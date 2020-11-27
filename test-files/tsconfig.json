@@ -4,7 +4,7 @@
     "baseUrl": ".",
     "sourceMap": true,
     "paths": {
-      "alias": ["src/aliased.ts"],
+      "alias": ["./src/ts/aliased.ts"],
       "not-yup": ["../node_modules/yup", "../node_modules/@types/yup"]
     },
     "jsx": "react"

@@ -1,12 +1,11 @@
-import * as path from 'path';
 import { Config } from '../src';
 
 const config: Config = {
   bundle: {
-    inFile: path.resolve(process.cwd(), 'test-files/src/index.ts'),
-    outDir: path.resolve(process.cwd(), 'test-files/build/'),
+    inFile: 'src/ts/index.ts',
+    outDir: 'build/js/',
   },
-  tsconfigPath: path.resolve(process.cwd(), 'test-files/tsconfig.json'),
+  tsconfigPath: 'tsconfig.json',
   hashFiles: true,
   env: {
     TEST: undefined,
