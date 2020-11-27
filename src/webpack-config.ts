@@ -25,7 +25,7 @@ export const createWebpackConfig = (
     },
     indexHTML,
     // Base options
-    tsconfigPath = 'tsconfig.json',
+    tsconfigPath = path.resolve(process.cwd(), 'tsconfig.json'),
     hashFiles = true,
     hashFilesInDev = false,
     additionalFilesToParse = [],
