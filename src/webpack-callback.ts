@@ -24,13 +24,11 @@ export const createWebpackCallback = (exit: boolean): WebpackCallback => (
     }
   }
 
-  if (!stats?.compilation) {
-    logger.warn("Compiled... but we couldn't get info about how long it took");
-  } else {
-    const time = (
-      (stats.compilation.endTime - stats.compilation.startTime) /
-      1000
-    ).toFixed(2);
+  if (
+    typeof stats?.endTime !== 'undefined' &&
+    typeof stats?.startTime !== 'undefined'
+  ) {
+    const time = ((stats.endTime - stats.startTime) / 1000).toFixed(2);
 
     logger.success(`Compiled in ${time} seconds`);
   }
