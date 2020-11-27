@@ -31,6 +31,7 @@ const CONFIG_VALIDATOR = yup
     host: yup.string().optional(),
     port: yup.number().optional(),
     publicDir: yup.string().optional(),
+    publicPath: yup.string().optional(),
     singlePageApp: yup.boolean().optional(),
     headers: yup.lazy<Record<string, string> | undefined>((value) => {
       if (value) {

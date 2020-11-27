@@ -18,6 +18,7 @@ export interface Config {
   host?: string;
   port?: number;
   publicDir?: string;
+  publicPath?: string;
   singlePageApp?: boolean;
   headers?: Record<string, string>;
 }

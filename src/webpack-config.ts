@@ -34,6 +34,7 @@ export const createWebpackConfig = (
     host = '0.0.0.0',
     port = 8080,
     publicDir,
+    publicPath,
     singlePageApp = true,
     headers,
   } = getTsbConfig(fullConfigPath);
@@ -163,7 +164,11 @@ export const createWebpackConfig = (
         ? { historyApiFallback: true, serveIndex: true }
         : null),
       headers,
-      publicPath: publicDir,
+      contentBase:
+        typeof publicDir === 'string'
+          ? path.resolve(fullConfigDir, publicDir)
+          : undefined,
+      contentBasePublicPath: publicPath,
     },
   };
 };
