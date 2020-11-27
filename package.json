@@ -9,6 +9,7 @@
   "scripts": {
     "test-build": "rm -rf dist && rm -rf test-files/build && npm run dist && ./dist/cli.js build --config test-files/tsb.config.ts",
     "test-watch": "rm -rf dist && rm -rf test-files/build && npm run dist && ./dist/cli.js watch --config test-files/tsb.config.ts",
+    "test-serve": "rm -rf dist && rm -rf test-files/build && npm run dist && ./dist/cli.js serve --config test-files/tsb.config.ts",
     "dist": "rm -rf dist && tsc --project tsconfig.dist.json && chmod +x dist/cli.js",
     "prettier": "prettier --write '*'",
     "lint": "prettier --check '*' && eslint '**/*.{js,jsx,ts,tsx}'",

@@ -1,19 +1,18 @@
 import * as path from 'path';
-import { Configuration, EnvironmentPlugin } from 'webpack';
+import { EnvironmentPlugin } from 'webpack';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import { Mode } from './types';
+import { Mode, WebpackConfigs } from './types';
 import { CONFIG_FILE_NAME, EXTENSIONS, MATCHES_EXTENSION } from './constants';
 import { getTsconfig } from './tsconfig';
 import { getTsbConfig } from './config';
-import { Configuration as DevServerConfiguration } from 'webpack-dev-server';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin';
 
 export const createWebpackConfig = (
   configPath = CONFIG_FILE_NAME,
   mode: Mode
-): { base: Configuration; devServer: DevServerConfiguration } => {
+): WebpackConfigs => {
   const fullConfigPath = path.resolve(process.cwd(), configPath);
   const fullConfigDir = path.dirname(fullConfigPath);
 

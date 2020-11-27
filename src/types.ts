@@ -1,3 +1,6 @@
+import { Configuration } from 'webpack';
+import { Configuration as DevServerConfiguration } from 'webpack-dev-server';
+
 export interface Config {
   // Required
   bundle: {
@@ -42,4 +45,10 @@ export interface Tsconfig {
     sourceMap?: boolean;
     module?: string;
   };
+}
+
+export interface WebpackConfigs {
+  base: Configuration;
+  devServer: DevServerConfiguration &
+    Required<Pick<DevServerConfiguration, 'port' | 'host'>>;
 }

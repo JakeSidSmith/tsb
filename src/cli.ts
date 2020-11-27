@@ -17,6 +17,7 @@ import {
 import { PROGRAM, DESCRIPTION } from './constants';
 import build from './commands/build';
 import watch from './commands/watch';
+import serve from './commands/serve';
 
 const COMMON_ARGS = [
   KWArg('config', {
@@ -76,9 +77,8 @@ collect(
           'serve',
           {
             description: 'Run a dev server and update on change (development)',
-            callback: () => {
-              console.error('Not yet implemented');
-              return process.exit(1);
+            callback: (tree) => {
+              serve(tree.kwargs.config);
             },
           },
           ...COMMON_ARGS
