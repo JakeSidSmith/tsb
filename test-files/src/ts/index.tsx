@@ -1,7 +1,14 @@
+/* global document */
 /* eslint-disable no-console */
+
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
 import { message as alias, Enum, ConstEnum } from 'alias';
 // import * as yup from 'not-yup';
+import App from './app';
+
+ReactDOM.render(<App />, document.getElementById('app'));
 
 const message = import(/* webpackChunkName: "required" */ './required');
 

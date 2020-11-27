@@ -1,7 +1,7 @@
 import { Config } from '../src';
 
 const config: Config = {
-  main: 'src/ts/index.ts',
+  main: 'src/ts/index.tsx',
   outDir: 'build',
   mainOutSubDir: 'js',
   indexHTML: 'src/index.html',
