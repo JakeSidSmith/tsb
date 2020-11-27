@@ -148,7 +148,9 @@ export const createWebpackConfig = (
                 filename: path.resolve(fullIndexOutDir, 'index.html'),
                 alwaysWriteToDisk: shouldOutputHTML,
               }
-            : {}
+            : {
+                alwaysWriteToDisk: shouldOutputHTML,
+              }
         ),
         new HtmlWebpackHarddiskPlugin(),
       ],
