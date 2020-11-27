@@ -24,6 +24,7 @@ export const createWebpackConfig = (
     mainOutSubDir,
     indexHTML,
     indexHTMLOutputInDev,
+    reactHotLoading = true,
     tsconfigPath = path.resolve(process.cwd(), 'tsconfig.json'),
     hashFiles = true,
     hashFilesInDev = false,
@@ -48,11 +49,9 @@ export const createWebpackConfig = (
 
   const tsconfig = getTsconfig(fullTsconfigPath);
 
-  const isReactAppDev = Boolean(
-    tsconfig.compilerOptions?.jsx?.startsWith('react') && mode === 'development'
-  );
+  const isReactAppDev = reactHotLoading && mode === 'development';
 
-  const additionalEntries = isReactAppDev ? ['react-hot-loader'] : [];
+  const additionalEntries = isReactAppDev ? ['react-hot-loader/patch'] : [];
   const babelPlugins = isReactAppDev ? ['react-hot-loader/babel'] : [];
   const alias: Record<string, string> = isReactAppDev
     ? { ['react-dom']: '@hot-loader/react-dom' }
@@ -158,6 +157,7 @@ export const createWebpackConfig = (
     },
     devServer: {
       hot: hotReload,
+      inline: true,
       host,
       port,
       ...(singlePageApp

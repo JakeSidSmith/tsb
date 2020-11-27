@@ -8,6 +8,7 @@ export interface Config {
   mainOutSubDir?: string;
   indexHTML?: string;
   indexHTMLOutputInDev?: boolean;
+  reactHotLoading?: boolean;
   tsconfigPath?: string;
   hashFiles?: boolean;
   hashFilesInDev?: boolean;

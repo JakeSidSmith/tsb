@@ -21,6 +21,7 @@ const CONFIG_VALIDATOR = yup
     mainOutSubDir: yup.string().optional(),
     indexHTML: yup.string().optional(),
     indexHTMLOutputInDev: yup.boolean().optional(),
+    reactHotLoading: yup.boolean().optional(),
     tsconfigPath: yup.string().optional(),
     hashFiles: yup.boolean().optional(),
     hashFilesInDev: yup.boolean().optional(),
