@@ -1,10 +1,10 @@
 import { Config } from '../src';
 
 const config: Config = {
-  bundle: {
-    inFile: 'src/ts/index.ts',
-    outDir: 'build/js/',
-  },
+  main: 'src/ts/index.ts',
+  outDir: 'build/',
+  mainOutSubDir: 'js',
+  indexHTML: 'src/index.html',
   tsconfigPath: 'tsconfig.json',
   hashFiles: true,
   env: {

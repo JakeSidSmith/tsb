@@ -15,29 +15,12 @@ const CONFIG_VALIDATOR = yup
   .object()
   .shape<Config>({
     // Required
-    bundle: yup
-      .object()
-      .shape<Config['bundle']>({
-        inFile: yup.string().required(),
-        outDir: yup.string().required(),
-        publicDir: yup.string().optional(),
-      })
-      .required(),
+    main: yup.string().required(),
+    outDir: yup.string().required(),
     // Base options
-    indexHTML: yup.lazy<Required<Config>['indexHTML'] | undefined>((value) => {
-      if (value) {
-        return yup
-          .object()
-          .shape<Required<Config>['indexHTML']>({
-            inFile: yup.string().required(),
-            outDir: yup.string().optional(),
-            outputInDev: yup.boolean().optional(),
-          })
-          .required();
-      }
-
-      return yup.mixed<undefined>().optional();
-    }),
+    mainOutSubDir: yup.string().optional(),
+    indexHTML: yup.string().optional(),
+    indexHTMLOutputInDev: yup.boolean().optional(),
     tsconfigPath: yup.string().optional(),
     hashFiles: yup.boolean().optional(),
     hashFilesInDev: yup.boolean().optional(),

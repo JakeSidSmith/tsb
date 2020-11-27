@@ -3,17 +3,11 @@ import { Configuration as DevServerConfiguration } from 'webpack-dev-server';
 
 export interface Config {
   // Required
-  bundle: {
-    inFile: string;
-    outDir: string;
-    publicDir?: string;
-  };
-  // Base options
-  indexHTML?: {
-    inFile: string;
-    outDir?: string;
-    outputInDev?: boolean;
-  };
+  main: string;
+  outDir: string;
+  mainOutSubDir?: string;
+  indexHTML?: string;
+  indexHTMLOutputInDev?: boolean;
   tsconfigPath?: string;
   hashFiles?: boolean;
   hashFilesInDev?: boolean;
