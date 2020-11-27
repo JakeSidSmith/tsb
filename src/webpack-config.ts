@@ -15,7 +15,8 @@ export const createWebpackConfig = (
   mode: Mode
 ): { base: Configuration; devServer: DevServerConfiguration } => {
   const fullConfigPath = path.resolve(process.cwd(), configPath);
-  const configDir = path.dirname(fullConfigPath);
+  const fullConfigDir = path.dirname(fullConfigPath);
+
   const {
     // Required
     bundle: {
@@ -39,7 +40,15 @@ export const createWebpackConfig = (
     headers,
   } = getTsbConfig(fullConfigPath);
 
-  const fullTsconfigPath = path.resolve(configDir, tsconfigPath);
+  const {
+    inFile: indexInFile = 'index.html',
+    outDir: indexOutDir = bundleOutDir,
+    outputInDev: indexOutputInDev = false,
+  } = indexHTML ?? {};
+
+  const fullTsconfigPath = path.resolve(fullConfigDir, tsconfigPath);
+  const fullIndexOutDir = path.resolve(fullConfigDir, indexOutDir);
+  const fullBundleOutDir = path.resolve(fullConfigDir, bundleOutDir);
 
   const tsconfig = getTsconfig(fullTsconfigPath);
 
@@ -53,12 +62,6 @@ export const createWebpackConfig = (
     ? { ['react-dom']: '@hot-loader/react-dom' }
     : {};
 
-  const {
-    inFile: indexInFile = 'index.html',
-    outDir: indexOutDir = '.',
-    outputInDev: indexOutputInDev = false,
-  } = indexHTML ?? {};
-
   const shouldOutputHTML = Boolean(indexOutputInDev || mode === 'production');
 
   return {
@@ -66,17 +69,17 @@ export const createWebpackConfig = (
       mode,
       devtool: tsconfig.compilerOptions?.sourceMap ? 'source-map' : undefined,
       stats: 'errors-only',
-      entry: [...additionalEntries, path.resolve(configDir, bundleInFile)],
+      entry: [...additionalEntries, path.resolve(fullConfigDir, bundleInFile)],
       output: {
-        path: path.resolve(configDir, bundleOutDir),
+        path: fullBundleOutDir,
         filename: `[name].bundle${
           hashFiles && (hashFilesInDev || mode !== 'development')
             ? '.[contenthash]'
             : ''
         }.js`,
         publicPath: path.resolve(
-          fullConfigPath,
-          bundlePublicDir ?? bundleOutDir
+          '/',
+          bundlePublicDir ?? path.relative(fullIndexOutDir, fullBundleOutDir)
         ),
       },
       module: {
@@ -85,7 +88,7 @@ export const createWebpackConfig = (
             test: MATCHES_EXTENSION,
             include: [...tsconfig.include].concat(
               [...additionalFilesToParse].map((comp) =>
-                path.resolve(configDir, comp)
+                path.resolve(fullConfigDir, comp)
               )
             ),
             use: [
@@ -142,12 +145,8 @@ export const createWebpackConfig = (
         new HtmlWebpackPlugin(
           indexHTML
             ? {
-                template: path.resolve(fullConfigPath, indexInFile),
-                filename: path.resolve(
-                  fullConfigPath,
-                  indexOutDir,
-                  'index.html'
-                ),
+                template: path.resolve(fullConfigDir, indexInFile),
+                filename: path.resolve(fullIndexOutDir, 'index.html'),
                 alwaysWriteToDisk: shouldOutputHTML,
               }
             : {}
