@@ -2,6 +2,9 @@
   "name": "@jakesidsmith/tsb",
   "version": "0.0.0",
   "description": "Dead simple TypeScript bundler, watcher, dev server, transpiler, and polyfiller",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/index.js",
   "bin": {
     "tsb": "dist/cli.js"
