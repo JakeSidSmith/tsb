@@ -22,12 +22,12 @@ Out of the box tsb offers you:
 - Transpiling (with [ts-loader](https://github.com/TypeStrong/ts-loader))
 - Browser support/polyfilling (with [babel](https://babeljs.io/))
 - Type checking in a separate thread (with [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin))
-- Minification/mangling, offering smaller builds
+- Code minification/mangling, offering smaller builds
 - Dead code elimination
-- Expose environment variables and define defaults (with [webpack environment plugin](https://webpack.js.org/plugins/environment-plugin/))
+- Expose [environment variables](#environment-variables) and define defaults (with [webpack environment plugin](https://webpack.js.org/plugins/environment-plugin/))
 - Load environment variables from a `.env` file (with [dotenv](https://github.com/motdotla/dotenv))
 - Hot-reloading
-- React hot-reloading (with [react-hot-loader](https://github.com/gaearon/react-hot-loader))
+- [React hot-reloading](#react-hot-loading) (with [react-hot-loader](https://github.com/gaearon/react-hot-loader))
 - Bundle hashing
 - Code splitting
 - SPA-style `index.html` serving and history API fallback
@@ -35,7 +35,7 @@ Out of the box tsb offers you:
 ## Important things to consider
 
 - You must set `"sourceMap": true` in your `tsconfig.json` to output source maps
-- You must choose an ES module for the `tsconfig.json` `"module"` option e.g. `"ESNext"`
+- You must choose an ES module for the `tsconfig.json` `"module"` option e.g. `"ESNext"` ([why?](#why-es-modules))
 - You should include `"tsb.config.ts"` in your `tsconfig.json` `"include"` option to ensure this is type checked
 - You must install compatible React dependencies to enable [React hot-loading](#react-hot-loading)
 
@@ -74,6 +74,8 @@ By default tsb will look for a `tsconfig.json` in the root of your project, but 
 
 ### Config options
 
+#### Basic example
+
 Your (minimal) config is defined in a `tsb.config.ts` e.g.
 
 For a project with the structure:
@@ -98,6 +100,8 @@ const config: Config = {
 
 export default config;
 ```
+
+#### More complex/custom project example
 
 For a more complex project with the following structure:
 
@@ -139,6 +143,24 @@ And then run this with:
 ```shell
 tsb <command> --config src/tsb.config.ts
 ```
+
+#### Environment variables
+
+You must manually specify environment variables that you'd like to include in your bundle. This is a safety precaution to avoid including sensitive information.
+
+These are defined as an object where the keys are the variable names, and the values are default values e.g.
+
+```ts
+const config: Config = {
+  // ...
+  env: {
+    FALL_BACK_TO_DEFAULT: 'hello',
+    ERROR_IF_NOT_PROVIDED_BY_THE_ENVIRONMENT: undefined,
+  },
+};
+```
+
+If any variables are resolved to `undefined` during a build, that is: both defined as `undefined` in your config and not exposed by your environment, then the build will error.
 
 ### All config options
 
@@ -210,3 +232,11 @@ More info here: https://github.com/gaearon/react-hot-loader
 By default the dev server will create an `index.html` file for you and serve this.
 
 If you have a custom `index.html` file, or need this to be processed by another templating engine you can specify a location for this in the `indexHTMLPath` config option.
+
+## Why ES modules?
+
+You must choose an ES module for the `tsconfig.json` `"module"` option e.g. `"ESNext"`.
+
+This is to improve build performance and better handle dead code elimination.
+
+Don't worry, we'll still output browser friendly bundles that use [CommonJS](https://en.wikipedia.org/wiki/CommonJS).
