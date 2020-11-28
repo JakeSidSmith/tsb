@@ -3,23 +3,74 @@ import { Configuration as DevServerConfiguration } from 'webpack-dev-server';
 
 export interface Config {
   // Required
+  /**
+   * @description Path to your TypeScript/JavaScript entry point
+   */
   main: string;
+  /**
+   * @description Path to the directory to output files
+   */
   outDir: string;
+  /**
+   * @description Sub-directory to output JavaScript files within `outDir`
+   */
   mainOutSubDir?: string;
+  /**
+   * @description Path to a custom index.html template
+   */
   indexHTML?: string;
+  /**
+   * @description List of commands for which to output index.html to disk
+   */
   outputIndexHTMLFor?: readonly Command[];
+  /**
+   * @description Whether React hot-loading is enabled
+   */
   reactHotLoading?: boolean;
+  /**
+   * @description Path to tsconfig.json
+   */
   tsconfigPath?: string;
+  /**
+   * @description List of commands for which output bundles are hashed
+   */
   hashFilesFor?: readonly Command[];
+  /**
+   * @description List of paths/globs to files outside of your tsconfig.json includes that should be parsed
+   */
   additionalFilesToParse?: readonly string[];
+  /**
+   * @description Map of environment variables to include (set undefined to automatically include values from the environment)
+   */
   env?: Env;
   // Dev server options
+  /**
+   * @description Whether hot-reloading is enabled
+   */
   hotReload?: boolean;
+  /**
+   * @description Host of the dev server (e.g. '0.0.0.0' or 'localhost')
+   */
   host?: string;
+  /**
+   * @description Port to run the dev server on
+   */
   port?: number;
+  /**
+   * @description Path to the directory in which additional public/static files should be served from
+   */
   publicDir?: string;
+  /**
+   * @description Public path to refer to files stored in the `publicDir`
+   */
   publicPath?: string;
+  /**
+   * @description Whether to enable SPA-style index.html serving and history API fallback
+   */
   singlePageApp?: boolean;
+  /**
+   * @description Custom headers to send with dev server requests
+   */
   headers?: Headers;
 }
 
