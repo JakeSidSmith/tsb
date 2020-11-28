@@ -2,6 +2,13 @@
 
 **Dead simple TypeScript bundler, watcher, dev server, transpiler, and polyfiller**
 
+## Important things to consider
+
+- You must set `"sourceMap": true` in your `tsconfig.json` to output source maps
+- You must choose an ES module for the `tsconfig.json` `module` option e.g. `"ESNext"`
+- You should include `"tsb.config.ts"` in your `tsconfig.json` `include` option to ensure this it type checked
+- You must install compatible React dependencies to enable [React hot-loading](#react-hot-loading)
+
 ## Install
 
 ```shell
