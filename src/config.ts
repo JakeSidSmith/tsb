@@ -119,6 +119,11 @@ export const getTsbConfig = (configPath: string): Config => {
   };
   script.runInNewContext(sandbox);
 
+  if (!sandbox.exports.default) {
+    logger.error('Your tsb.config.ts must export a default');
+    return process.exit(1);
+  }
+
   try {
     CONFIG_VALIDATOR.validateSync(sandbox.exports.default);
   } catch (error) {
@@ -128,5 +133,7 @@ export const getTsbConfig = (configPath: string): Config => {
     return process.exit(1);
   }
 
-  return sandbox.exports.default as Config;
+  const { default: config } = sandbox.exports;
+
+  return config;
 };
