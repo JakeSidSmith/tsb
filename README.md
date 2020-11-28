@@ -2,11 +2,41 @@
 
 **Dead simple TypeScript bundler, watcher, dev server, transpiler, and polyfiller**
 
+## About
+
+### Introduction
+
+The goal of this project is to create a TypeScript bundler that as closely matches the official TypeScript compiler as possible, utilizing as much config from your `tsconfig.json` as possible, with only minimal additional config required.
+
+This library is basically just a wrapper around [webpack](https://webpack.js.org/) with a sensible set of default plugins and configuration for TypeScript projects.
+
+If you later want more customization you should use webpack itself (or another bundler of your choice).
+
+### Features
+
+Out of the box tsb offers you:
+
+- A production `build` command
+- A development `watch` command
+- A development `serve` command
+- Transpiling (with [ts-loader](https://github.com/TypeStrong/ts-loader))
+- Browser support/polyfilling (with [babel](https://babeljs.io/))
+- Type checking in a separate thread (with [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin))
+- Minification/mangling, offering smaller builds
+- Dead code elimination
+- Expose environment variables and define defaults (with [webpack environment plugin](https://webpack.js.org/plugins/environment-plugin/))
+- Load environment variables from a `.env` file (with [dotenv](https://github.com/motdotla/dotenv))
+- Hot-reloading
+- React hot-reloading (with [react-hot-loader](https://github.com/gaearon/react-hot-loader))
+- Bundle hashing
+- Code splitting
+- SPA-style `index.html` serving and history API fallback
+
 ## Important things to consider
 
 - You must set `"sourceMap": true` in your `tsconfig.json` to output source maps
-- You must choose an ES module for the `tsconfig.json` `module` option e.g. `"ESNext"`
-- You should include `"tsb.config.ts"` in your `tsconfig.json` `include` option to ensure this it type checked
+- You must choose an ES module for the `tsconfig.json` `"module"` option e.g. `"ESNext"`
+- You should include `"tsb.config.ts"` in your `tsconfig.json` `"include"` option to ensure this is type checked
 - You must install compatible React dependencies to enable [React hot-loading](#react-hot-loading)
 
 ## Install
@@ -40,7 +70,7 @@ You can specify where to look for your config file with the `--config` CLI optio
 tsb build --config custom/location/tsb.config.ts
 ```
 
-By default tsb will look for a `tsconfig.json` in the root of your project, but you can override this with the `tsconfig` option in your `tsb.config.ts`.
+By default tsb will look for a `tsconfig.json` in the root of your project, but you can override this with the `tsconfigPath` option in your `tsb.config.ts`.
 
 ### Config options
 
@@ -137,6 +167,20 @@ interface Config {
 }
 ```
 
+## Code splitting
+
+In order to split your bundle, you should use dynamic imports at the locations where you'd like the modules to be split.
+
+You can name the output bundles by supplying a comment e.g.
+
+```
+import(/* webpackChunkName: "my-file" */ './path/to/file');
+```
+
+You can also set chunks to be pre-loaded.
+
+More info here: https://webpack.js.org/guides/code-splitting/
+
 ## React hot-loading
 
 React hot-loading is enabled by default. To disable this set the `reactHotLoading` option to `false`.
@@ -165,4 +209,4 @@ More info here: https://github.com/gaearon/react-hot-loader
 
 By default the dev server will create an `index.html` file for you and serve this.
 
-If you have a custom `index.html` file, or need this to be processed by another templating engine you can specify a location for this in the `indexHTML` config option.
+If you have a custom `index.html` file, or need this to be processed by another templating engine you can specify a location for this in the `indexHTMLPath` config option.
