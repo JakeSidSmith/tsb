@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 import * as vm from 'vm';
-// import * as fs from 'fs';
+import * as fs from 'fs';
 import { CONFIG_FILE_NAME, PROGRAM } from './constants';
 import { Command, Config } from './types';
 import * as yup from 'yup';
@@ -146,10 +146,35 @@ export const getTsbConfig = (configPath: string): Config => {
 
     Object.keys(reactVersions).forEach((lib) => {
       try {
-        reactVersions[lib] = require.resolve(`${lib}/package.json`);
+        const packagePath = require.resolve(`${lib}/package.json`);
+        const packageContent = fs.readFileSync(packagePath, 'utf8');
+
+        let packageJson: { version?: string } | null;
+
+        try {
+          packageJson = JSON.parse(packageContent);
+        } catch (jsonError) {
+          logger.error(jsonError);
+          logger.error(
+            `Failed to parse package.json of ${lib} (reactHotLoading is enabled)`
+          );
+          process.exit(1);
+        }
+
+        if (!packageJson?.version) {
+          logger.error(
+            `No version specified in package.json of ${lib} (reactHotLoading is enabled)`
+          );
+          process.exit(1);
+        }
+
+        reactVersions[lib] = packageJson.version;
       } catch (error) {
         logger.error(error);
-        logger.error(`reactHotLoading is enabled, but ${lib} is not installed`);
+        logger.error(
+          `Failed to check installed version of ${lib} (reactHotLoading is enabled)`
+        );
+        process.exit(1);
       }
     });
 
@@ -163,10 +188,10 @@ export const getTsbConfig = (configPath: string): Config => {
 
     if (!allVersionsAreTheSame) {
       logger.error(
-        'Versions of installed react dependencies required for hot loading did not match'
+        'Versions of installed React dependencies required for hot loading did not match'
       );
       Object.keys(reactVersions).forEach((lib) => {
-        logger.info(`${lib}: ${reactVersions[lib]}`);
+        logger.info(`  ${lib}: ${reactVersions[lib]}`);
       });
       return process.exit(1);
     }
