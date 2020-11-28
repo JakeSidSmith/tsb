@@ -202,7 +202,7 @@ interface Config {
   // Whether to enable SPA-style index.html serving and history API fallback
   singlePageApp?: boolean; // Default: true
   // Custom headers to send with dev server requests
-  headers: Record<string, string>;
+  headers?: Record<string, string>;
 }
 ```
 
