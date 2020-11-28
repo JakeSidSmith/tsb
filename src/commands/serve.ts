@@ -4,7 +4,7 @@ import { createWebpackConfig } from '../webpack-config';
 import { createWebpackCallback } from '../webpack-callback';
 
 const serve = (configPath: string | undefined): void => {
-  const webpackConfig = createWebpackConfig(configPath, 'development');
+  const webpackConfig = createWebpackConfig(configPath, 'development', 'serve');
   const callback = createWebpackCallback(false);
 
   WebpackDevServer.addDevServerEntrypoints(

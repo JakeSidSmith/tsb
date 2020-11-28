@@ -1,1 +1,1 @@
-export { Config } from './types';
+export { Config, Headers, Env, Command } from './types';

@@ -7,13 +7,12 @@ export interface Config {
   outDir: string;
   mainOutSubDir?: string;
   indexHTML?: string;
-  indexHTMLOutputInDev?: boolean;
+  outputIndexHTMLFor?: readonly Command[];
   reactHotLoading?: boolean;
   tsconfigPath?: string;
-  hashFiles?: boolean;
-  hashFilesInDev?: boolean;
+  hashFilesFor?: readonly Command[];
   additionalFilesToParse?: readonly string[];
-  env?: Record<string, unknown>;
+  env?: Env;
   // Dev server options
   hotReload?: boolean;
   host?: string;
@@ -21,8 +20,13 @@ export interface Config {
   publicDir?: string;
   publicPath?: string;
   singlePageApp?: boolean;
-  headers?: Record<string, string>;
+  headers?: Headers;
 }
+
+export type Headers = Record<string, string>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Env = Record<string, any>;
+export type Command = 'build' | 'watch' | 'serve';
 
 export type Mode = 'development' | 'production';
 

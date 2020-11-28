@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import * as vm from 'vm';
 import { CONFIG_FILE_NAME, PROGRAM } from './constants';
-import { Config } from './types';
+import { Command, Config } from './types';
 import * as yup from 'yup';
 import * as logger from './logger';
 
@@ -20,11 +20,16 @@ const CONFIG_VALIDATOR = yup
     // Base options
     mainOutSubDir: yup.string().optional(),
     indexHTML: yup.string().optional(),
-    indexHTMLOutputInDev: yup.boolean().optional(),
+    outputIndexHTMLFor: yup
+      .array()
+      .of<Command>(yup.mixed<Command>().oneOf(['build', 'watch', 'serve']))
+      .optional(),
     reactHotLoading: yup.boolean().optional(),
     tsconfigPath: yup.string().optional(),
-    hashFiles: yup.boolean().optional(),
-    hashFilesInDev: yup.boolean().optional(),
+    hashFilesFor: yup
+      .array()
+      .of<Command>(yup.mixed<Command>().oneOf(['build', 'watch', 'serve']))
+      .optional(),
     additionalFilesToParse: yup.array().of(yup.string().required()).optional(),
     env: yup.object<Record<string, unknown>>().optional(),
     // Dev server options

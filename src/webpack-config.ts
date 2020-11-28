@@ -2,7 +2,7 @@ import * as path from 'path';
 import { EnvironmentPlugin } from 'webpack';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import { Mode, WebpackConfigs } from './types';
+import { Command, Mode, WebpackConfigs } from './types';
 import { CONFIG_FILE_NAME, EXTENSIONS, MATCHES_EXTENSION } from './constants';
 import { getTsconfig } from './tsconfig';
 import { getTsbConfig } from './config';
@@ -11,7 +11,8 @@ import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin';
 
 export const createWebpackConfig = (
   configPath = CONFIG_FILE_NAME,
-  mode: Mode
+  mode: Mode,
+  command: Command
 ): WebpackConfigs => {
   const fullConfigPath = path.resolve(process.cwd(), configPath);
   const fullConfigDir = path.dirname(fullConfigPath);
@@ -23,11 +24,10 @@ export const createWebpackConfig = (
     // Base options
     mainOutSubDir,
     indexHTML,
-    indexHTMLOutputInDev,
+    outputIndexHTMLFor = ['build', 'watch'],
     reactHotLoading = true,
     tsconfigPath = path.resolve(process.cwd(), 'tsconfig.json'),
-    hashFiles = true,
-    hashFilesInDev = false,
+    hashFilesFor = ['build', 'watch'],
     additionalFilesToParse = [],
     env,
     // Dev server options
@@ -57,9 +57,28 @@ export const createWebpackConfig = (
     ? { ['react-dom']: '@hot-loader/react-dom' }
     : {};
 
-  const shouldOutputHTML = Boolean(
-    indexHTMLOutputInDev || mode === 'production'
-  );
+  const shouldOutputHTML = outputIndexHTMLFor.includes(command);
+
+  const htmlPlugins =
+    outputIndexHTMLFor.includes(command) || command === 'serve'
+      ? [
+          new HtmlWebpackPlugin(
+            indexHTML
+              ? {
+                  template: path.resolve(fullConfigDir, indexHTML),
+                  filename: path.resolve(fullOutDir, 'index.html'),
+                  alwaysWriteToDisk: shouldOutputHTML,
+                }
+              : {
+                  alwaysWriteToDisk: shouldOutputHTML,
+                  meta: {
+                    viewport: 'width=device-width, initial-scale=1',
+                  },
+                }
+          ),
+          new HtmlWebpackHarddiskPlugin(),
+        ]
+      : [];
 
   return {
     base: {
@@ -72,9 +91,7 @@ export const createWebpackConfig = (
         filename: `${
           bundleOutSubDirRelative ? `${bundleOutSubDirRelative}/` : ''
         }[name].bundle${
-          hashFiles && (hashFilesInDev || mode !== 'development')
-            ? '.[contenthash]'
-            : ''
+          hashFilesFor.includes(command) ? '.[contenthash]' : ''
         }.js`,
         publicPath: singlePageApp ? '/' : '',
       },
@@ -138,21 +155,7 @@ export const createWebpackConfig = (
             configFile: fullTsconfigPath,
           },
         }),
-        new HtmlWebpackPlugin(
-          indexHTML
-            ? {
-                template: path.resolve(fullConfigDir, indexHTML),
-                filename: path.resolve(fullOutDir, 'index.html'),
-                alwaysWriteToDisk: shouldOutputHTML,
-              }
-            : {
-                alwaysWriteToDisk: shouldOutputHTML,
-                meta: {
-                  viewport: 'width=device-width, initial-scale=1',
-                },
-              }
-        ),
-        new HtmlWebpackHarddiskPlugin(),
+        ...htmlPlugins,
       ],
     },
     devServer: {

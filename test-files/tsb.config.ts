@@ -6,7 +6,6 @@ const config: Config = {
   mainOutSubDir: 'js',
   indexHTML: 'src/index.html',
   tsconfigPath: 'tsconfig.json',
-  hashFiles: true,
   env: {
     TEST: undefined,
   },
