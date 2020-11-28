@@ -41,7 +41,7 @@ export interface Config {
    */
   additionalFilesToParse?: readonly string[];
   /**
-   * @description Map of environment variables to include (set undefined to automatically include values from the environment)
+   * @description Map of environment variables to include (key: variable name, value: default value (set undefined if you don't want a default))
    */
   env?: Env;
   // Dev server options
