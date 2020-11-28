@@ -19,13 +19,13 @@ const CONFIG_VALIDATOR = yup
     outDir: yup.string().required(),
     // Base options
     mainOutSubDir: yup.string().optional(),
+    tsconfigPath: yup.string().optional(),
     indexHTML: yup.string().optional(),
     outputIndexHTMLFor: yup
       .array()
       .of<Command>(yup.mixed<Command>().oneOf(['build', 'watch', 'serve']))
       .optional(),
     reactHotLoading: yup.boolean().optional(),
-    tsconfigPath: yup.string().optional(),
     hashFilesFor: yup
       .array()
       .of<Command>(yup.mixed<Command>().oneOf(['build', 'watch', 'serve']))

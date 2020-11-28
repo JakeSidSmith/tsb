@@ -112,10 +112,10 @@ interface Config {
   outDir: string;
   // Base options
   mainOutSubDir?: string;
+  tsconfigPath?: string; // Default: tsconfig.json in the root of the project
   indexHTML?: string;
   outputIndexHTMLFor?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']
   reactHotLoading?: boolean; // Default: true
-  tsconfigPath?: string; // Default: tsconfig.json in the root of the project
   hashFilesFor?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']
   additionalFilesToParse?: readonly string[];
   env?: Record<string, any>;

@@ -11,10 +11,15 @@ export interface Config {
    * @description Path to the directory to output files
    */
   outDir: string;
+  // Base options
   /**
    * @description Sub-directory to output JavaScript files within `outDir`
    */
   mainOutSubDir?: string;
+  /**
+   * @description Path to tsconfig.json
+   */
+  tsconfigPath?: string;
   /**
    * @description Path to a custom index.html template
    */
@@ -27,10 +32,6 @@ export interface Config {
    * @description Whether React hot-loading is enabled
    */
   reactHotLoading?: boolean;
-  /**
-   * @description Path to tsconfig.json
-   */
-  tsconfigPath?: string;
   /**
    * @description List of commands for which output bundles are hashed
    */
