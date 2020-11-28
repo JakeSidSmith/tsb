@@ -117,7 +117,7 @@ const config: Config = {
   main: 'src/ts/index.tsx,
   outDir: 'build',
   mainOutSubDir: 'js',
-  indexHTML: 'src/index.html',
+  indexHTMLPath: 'src/index.html',
   tsconfigPath: 'src/tsconfig.json',
   publicDir: 'public',
   publicPath: '/public/'
