@@ -160,7 +160,7 @@ const config: Config = {
 };
 ```
 
-If any variables are resolved to `undefined` during a build, that is: both defined as `undefined` in your config and not exposed by your environment, then the build will error.
+If any variables are resolved to `undefined` during a build (both defined as `undefined` in your config and not exposed by your environment) then the build will error.
 
 ### All config options
 
