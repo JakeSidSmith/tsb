@@ -167,24 +167,41 @@ If any variables are resolved to `undefined` during a build (both defined as `un
 ```ts
 interface Config {
   // Required
+  // Path to your TypeScript/JavaScript entry point
   main: string;
+  // Path to the directory to output files
   outDir: string;
   // Base options
+  // Sub-directory to output JavaScript files within `outDir`
   mainOutSubDir?: string;
+  // Path to tsconfig.json
   tsconfigPath?: string; // Default: tsconfig.json in the root of the project
+  // Path to a custom index.html template
   indexHTMLPath?: string;
+  // List of commands for which to output index.html to disk
   outputIndexHTMLFor?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']
+  // Whether React hot-loading is enabled
   reactHotLoading?: boolean; // Default: true
+  // List of commands for which output bundles are hashed
   hashFilesFor?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']
+  // List of paths/globs to files outside of your tsconfig.json includes that should be parsed
   additionalFilesToParse?: readonly string[];
+  // Map of environment variables to include (key: variable name, value: default value (set undefined if  don't want a default))
   env?: Record<string, any>;
   // Dev server options
+  // Whether hot-reloading is enabled
   hotReload?: boolean; // Default: true
+  // Host of the dev server (e.g. '0.0.0.0' or 'localhost')
   host?: string; // Default: '0.0.0.0'
+  // Port to run the dev server on
   port?: number; // Default: 8080
+  // Path to the directory in which additional public/static files should be served from
   publicDir?: string;
+  // Public path to refer to files stored in the `publicDir`
   publicPath?: string;
+  // Whether to enable SPA-style index.html serving and history API fallback
   singlePageApp?: boolean; // Default: true
+  // Custom headers to send with dev server requests
   headers: Record<string, string>;
 }
 ```
