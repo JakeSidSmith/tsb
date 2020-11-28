@@ -60,21 +60,7 @@ tsb serve
 
 ## Config
 
-### CLI
-
-By default tsb will look for a `tsb.config.ts` in the root directory of your project.
-
-You can specify where to look for your config file with the `--config` CLI option e.g.
-
-```shell
-tsb build --config custom/location/tsb.config.ts
-```
-
-By default tsb will look for a `tsconfig.json` in the root of your project, but you can override this with the `tsconfigPath` option in your `tsb.config.ts`.
-
-### Config options
-
-#### Basic example
+### Basic example
 
 Your (minimal) config is defined in a `tsb.config.ts` e.g.
 
@@ -101,7 +87,7 @@ const config: Config = {
 export default config;
 ```
 
-#### More complex/custom project example
+### More complex/custom project example
 
 For a more complex project with the following structure:
 
@@ -144,7 +130,7 @@ And then run this with:
 tsb <command> --config src/tsb.config.ts
 ```
 
-#### Environment variables
+### Environment variables
 
 You must manually specify environment variables that you'd like to include in your bundle. This is a safety precaution to avoid including sensitive information.
 
@@ -161,6 +147,18 @@ const config: Config = {
 ```
 
 If any variables are resolved to `undefined` during a build (both defined as `undefined` in your config and not exposed by your environment) then the build will error.
+
+### CLI
+
+By default tsb will look for a `tsb.config.ts` in the root directory of your project.
+
+You can specify where to look for your config file with the `--config` CLI option e.g.
+
+```shell
+tsb build --config custom/location/tsb.config.ts
+```
+
+By default tsb will look for a `tsconfig.json` in the root of your project, but you can override this with the `tsconfigPath` option in your `tsb.config.ts`.
 
 ### All config options
 
