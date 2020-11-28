@@ -1,9 +1,11 @@
 import * as ts from 'typescript';
 import * as vm from 'vm';
+// import * as fs from 'fs';
 import { CONFIG_FILE_NAME, PROGRAM } from './constants';
 import { Command, Config } from './types';
 import * as yup from 'yup';
 import * as logger from './logger';
+import * as semver from 'semver';
 
 interface Sandbox {
   require: typeof require;
@@ -134,6 +136,41 @@ export const getTsbConfig = (configPath: string): Config => {
   }
 
   const { default: config } = sandbox.exports;
+
+  if (config.reactHotLoading || typeof config.reactHotLoading === 'undefined') {
+    const reactVersions: Record<string, string> = {
+      react: 'Not installed',
+      ['react-dom']: 'Not installed',
+      ['@hot-loader/react-dom']: 'Not installed',
+    };
+
+    Object.keys(reactVersions).forEach((lib) => {
+      try {
+        reactVersions[lib] = require.resolve(`${lib}/package.json`);
+      } catch (error) {
+        logger.error(error);
+        logger.error(`reactHotLoading is enabled, but ${lib} is not installed`);
+      }
+    });
+
+    const resolvedVersions = Object.values(reactVersions).map(
+      (version) => semver.coerce(version)?.major
+    );
+
+    const allVersionsAreTheSame = resolvedVersions.every(
+      (version) => version === resolvedVersions[0]
+    );
+
+    if (!allVersionsAreTheSame) {
+      logger.error(
+        'Versions of installed react dependencies required for hot loading did not match'
+      );
+      Object.keys(reactVersions).forEach((lib) => {
+        logger.info(`${lib}: ${reactVersions[lib]}`);
+      });
+      return process.exit(1);
+    }
+  }
 
   return config;
 };
