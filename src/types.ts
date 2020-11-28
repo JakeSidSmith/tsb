@@ -23,7 +23,7 @@ export interface Config {
   /**
    * @description Path to a custom index.html template
    */
-  indexHTML?: string;
+  indexHTMLPath?: string;
   /**
    * @description List of commands for which to output index.html to disk
    */

@@ -113,7 +113,7 @@ interface Config {
   // Base options
   mainOutSubDir?: string;
   tsconfigPath?: string; // Default: tsconfig.json in the root of the project
-  indexHTML?: string;
+  indexHTMLPath?: string;
   outputIndexHTMLFor?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']
   reactHotLoading?: boolean; // Default: true
   hashFilesFor?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']

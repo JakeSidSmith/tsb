@@ -24,7 +24,7 @@ export const createWebpackConfig = (
     // Base options
     mainOutSubDir,
     tsconfigPath = path.resolve(process.cwd(), 'tsconfig.json'),
-    indexHTML,
+    indexHTMLPath,
     outputIndexHTMLFor = ['build', 'watch'],
     reactHotLoading = true,
     hashFilesFor = ['build', 'watch'],
@@ -63,9 +63,9 @@ export const createWebpackConfig = (
     outputIndexHTMLFor.includes(command) || command === 'serve'
       ? [
           new HtmlWebpackPlugin(
-            indexHTML
+            indexHTMLPath
               ? {
-                  template: path.resolve(fullConfigDir, indexHTML),
+                  template: path.resolve(fullConfigDir, indexHTMLPath),
                   filename: path.resolve(fullOutDir, 'index.html'),
                   alwaysWriteToDisk: shouldOutputHTML,
                 }
