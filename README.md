@@ -36,7 +36,7 @@ Out of the box tsb offers you:
 
 - You must set `"sourceMap": true` in your `tsconfig.json` to output source maps
 - You must choose an ES module for the `tsconfig.json` `"module"` option e.g. `"ESNext"` ([why?](#why-es-modules))
-- You should include `"tsb.config.ts"` in your `tsconfig.json` `"include"` option to ensure this is type checked
+- You should include `"tsb.config.ts"` in your `tsconfig.json` `"include"` option to ensure this is type checked (but we'll do that for you during a build anyway)
 - You must install compatible React dependencies to enable [React hot-loading](#react-hot-loading)
 
 ## Install
@@ -59,6 +59,8 @@ tsb serve
 ```
 
 ## Config
+
+IMPORTANT: read the [important things to consider](#important-things-to-consider) before continuing.
 
 ### Basic example
 
