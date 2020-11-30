@@ -224,12 +224,10 @@ More info here: https://webpack.js.org/guides/code-splitting/
 
 React hot-loading is enabled by default. To disable this set the `reactHotLoading` option to `false`.
 
-In order for hot-loading to work correctly you should install the relevant (matching) versions of the following libraries:
+In order for hot-loading to work correctly you should install the matching versions of the relevant libraries (`react`, `react-dom`, and `@hot-loader/react-dom`) e.g.
 
-```
-react
-react-dom
-@hot-loader/react-dom
+```shell
+npm i react@17 react-dom@17 @hot-loader/react-dom@17 -P
 ```
 
 You will also need to mark your root component as hot-exported:
