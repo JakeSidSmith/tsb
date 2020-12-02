@@ -16,7 +16,7 @@
     "dist": "rm -rf dist && tsc --project tsconfig.dist.json && chmod +x dist/cli.js",
     "prettier": "prettier --write '*'",
     "lint": "prettier --check '*' && eslint '**/*.{js,jsx,ts,tsx}'",
-    "typecheck": "tsc --noEmit --project test-files/tsconfig.json",
+    "typecheck": "tsc --noEmit && tsc --noEmit --project test-files/tsconfig.json",
     "test": "npm run typecheck && npm run lint",
     "prepublishOnly": "npm test && npm run dist"
   },
