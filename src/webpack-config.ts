@@ -172,6 +172,7 @@ export const createWebpackConfig = (
           ? path.resolve(fullConfigDir, publicDir)
           : undefined,
       contentBasePublicPath: publicPath,
+      watchContentBase: true,
     },
   };
 };
