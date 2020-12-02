@@ -4,6 +4,7 @@
 .gitignore
 .gitattributes
 .prettierignore
+.npmignore
 .nvmrc
 .env
 LICENSE.txt
