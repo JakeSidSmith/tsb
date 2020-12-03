@@ -26,8 +26,8 @@ Out of the box tsb offers you:
 - Dead code elimination
 - Expose [environment variables](#environment-variables) and define defaults (with [webpack environment plugin](https://webpack.js.org/plugins/environment-plugin/))
 - Load environment variables from a `.env` file (with [dotenv](https://github.com/motdotla/dotenv))
-- Hot-reloading
-- [React hot-reloading](#react-hot-loading) (with [react-hot-loader](https://github.com/gaearon/react-hot-loader))
+- Hot-loading
+- React hot-loading (with a little [extra setup](#react-hot-loading))
 - Bundle hashing
 - Code splitting
 - SPA-style `index.html` serving and history API fallback
@@ -181,7 +181,7 @@ interface Config {
   // List of commands for which to output index.html to disk
   outputIndexHTMLFor?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']
   // Whether React hot-loading is enabled
-  reactHotLoading?: boolean; // Default: true
+  reactHotLoading?: boolean; // Default: false
   // List of commands for which output bundles are hashed
   hashFilesFor?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']
   // List of paths/globs to files outside of your tsconfig.json includes that should be parsed
@@ -189,8 +189,8 @@ interface Config {
   // Map of environment variables to include (key: variable name, value: default value (set undefined if  don't want a default))
   env?: Record<string, any>;
   // Dev server options
-  // Whether hot-reloading is enabled
-  hotReload?: boolean; // Default: true
+  // Whether hot-loading is enabled
+  hotLoading?: boolean; // Default: true
   // Host of the dev server (e.g. '0.0.0.0' or 'localhost')
   host?: string; // Default: '0.0.0.0'
   // Port to run the dev server on
@@ -222,12 +222,14 @@ More info here: https://webpack.js.org/guides/code-splitting/
 
 ## React hot-loading
 
-React hot-loading is enabled by default. To disable this set the `reactHotLoading` option to `false`.
+React hot-loading is disabled by default. To enable this set the `reactHotLoading` option to `true`.
 
-In order for hot-loading to work correctly you should install the matching versions of the relevant libraries (`react`, `react-dom`, and `@hot-loader/react-dom`) e.g.
+In order for hot-loading to work correctly you must install `react-hot-loader`, and matching versions of the relevant react libraries - `react`, `react-dom`, and `@hot-loader/react-dom` e.g.
 
 ```shell
-npm i react@17 react-dom@17 @hot-loader/react-dom@17 -P
+npm i react@17 react-dom@17 -P
+# These are only needed in development so we'll use -D to add them as dev dependencies
+npm i @hot-loader/react-dom@17 react-hot-loader -D
 ```
 
 You will also need to mark your root component as hot-exported:

@@ -26,12 +26,12 @@ export const createWebpackConfig = (
     tsconfigPath = path.resolve(process.cwd(), 'tsconfig.json'),
     indexHTMLPath,
     outputIndexHTMLFor = ['build', 'watch'],
-    reactHotLoading = true,
+    reactHotLoading = false,
     hashFilesFor = ['build', 'watch'],
     additionalFilesToParse = [],
     env,
     // Dev server options
-    hotReload = true,
+    hotLoading = true,
     host = '0.0.0.0',
     port = 8080,
     publicDir,
@@ -159,7 +159,7 @@ export const createWebpackConfig = (
       ],
     },
     devServer: {
-      hot: hotReload,
+      hot: hotLoading,
       inline: true,
       host,
       port,

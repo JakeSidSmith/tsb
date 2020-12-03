@@ -35,7 +35,7 @@ const CONFIG_VALIDATOR = yup
     additionalFilesToParse: yup.array().of(yup.string().required()).optional(),
     env: yup.object<Record<string, unknown>>().optional(),
     // Dev server options
-    hotReload: yup.boolean().optional(),
+    hotLoading: yup.boolean().optional(),
     host: yup.string().optional(),
     port: yup.number().optional(),
     publicDir: yup.string().optional(),
@@ -138,6 +138,16 @@ export const getTsbConfig = (configPath: string): Config => {
   const { default: config } = sandbox.exports;
 
   if (config.reactHotLoading || typeof config.reactHotLoading === 'undefined') {
+    try {
+      require.resolve('react-hot-loader');
+    } catch (reactHotLoaderError) {
+      logger.error(reactHotLoaderError);
+      logger.error(
+        'Could not resolve react-hot-loader (reactHotLoading is enabled)'
+      );
+      return process.exit(1);
+    }
+
     const reactVersions: Record<string, string> = {
       react: 'Not installed',
       ['react-dom']: 'Not installed',
