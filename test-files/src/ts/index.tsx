@@ -16,7 +16,7 @@ document.body.appendChild(element);
 
 ReactDOM.render(<App />, element);
 
-// const message = import(/* webpackChunkName: "required" */ './required');
+const message = import(/* webpackChunkName: "required" */ './required');
 
 // const validator = yup.array().of(yup.string());
 
@@ -24,9 +24,9 @@ console.log(process.env.TEST);
 
 console.log(Enum.FOO, ConstEnum.BAR);
 
-// message.then((text) => {
-//   console.log(text);
-// });
+message.then((text) => {
+  console.log(text);
+});
 
 // validator
 //   .validate(Array.from([message, alias]))
