@@ -138,6 +138,16 @@ export const getTsbConfig = (configPath: string): Config => {
   const { default: config } = sandbox.exports;
 
   if (config.reactHotLoading || typeof config.reactHotLoading === 'undefined') {
+    try {
+      require.resolve('react-hot-loader');
+    } catch (reactHotLoaderError) {
+      logger.error(reactHotLoaderError);
+      logger.error(
+        'Could not resolve react-hot-loader (reactHotLoading is enabled)'
+      );
+      return process.exit(1);
+    }
+
     const reactVersions: Record<string, string> = {
       react: 'Not installed',
       ['react-dom']: 'Not installed',
