@@ -31,7 +31,7 @@ export const createWebpackConfig = (
     additionalFilesToParse = [],
     env,
     // Dev server options
-    hotReload = true,
+    hotLoading = true,
     host = '0.0.0.0',
     port = 8080,
     publicDir,
@@ -159,7 +159,7 @@ export const createWebpackConfig = (
       ],
     },
     devServer: {
-      hot: hotReload,
+      hot: hotLoading,
       inline: true,
       host,
       port,

@@ -48,7 +48,7 @@ export interface Config {
   /**
    * @description Whether hot-reloading is enabled
    */
-  hotReload?: boolean;
+  hotLoading?: boolean;
   /**
    * @description Host of the dev server (e.g. '0.0.0.0' or 'localhost')
    */

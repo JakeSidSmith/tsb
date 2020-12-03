@@ -26,8 +26,8 @@ Out of the box tsb offers you:
 - Dead code elimination
 - Expose [environment variables](#environment-variables) and define defaults (with [webpack environment plugin](https://webpack.js.org/plugins/environment-plugin/))
 - Load environment variables from a `.env` file (with [dotenv](https://github.com/motdotla/dotenv))
-- Hot-reloading
-- React hot-reloading (with a little [extra setup](#react-hot-loading))
+- Hot-loading
+- React hot-loading (with a little [extra setup](#react-hot-loading))
 - Bundle hashing
 - Code splitting
 - SPA-style `index.html` serving and history API fallback
@@ -189,8 +189,8 @@ interface Config {
   // Map of environment variables to include (key: variable name, value: default value (set undefined if  don't want a default))
   env?: Record<string, any>;
   // Dev server options
-  // Whether hot-reloading is enabled
-  hotReload?: boolean; // Default: true
+  // Whether hot-loading is enabled
+  hotLoading?: boolean; // Default: true
   // Host of the dev server (e.g. '0.0.0.0' or 'localhost')
   host?: string; // Default: '0.0.0.0'
   // Port to run the dev server on

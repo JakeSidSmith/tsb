@@ -35,7 +35,7 @@ const CONFIG_VALIDATOR = yup
     additionalFilesToParse: yup.array().of(yup.string().required()).optional(),
     env: yup.object<Record<string, unknown>>().optional(),
     // Dev server options
-    hotReload: yup.boolean().optional(),
+    hotLoading: yup.boolean().optional(),
     host: yup.string().optional(),
     port: yup.number().optional(),
     publicDir: yup.string().optional(),
