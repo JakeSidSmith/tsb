@@ -172,6 +172,18 @@ export const createWebpackConfig = (
           ? path.resolve(fullConfigDir, publicDir)
           : undefined,
       contentBasePublicPath: publicPath,
+      stats: {
+        colors: true,
+        assets: false,
+        children: false,
+        chunks: false,
+        chunkModules: false,
+        entrypoints: false,
+        hash: false,
+        modules: false,
+        timings: false,
+        version: false,
+      },
     },
   };
 };
