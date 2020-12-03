@@ -26,7 +26,7 @@ export const createWebpackConfig = (
     tsconfigPath = path.resolve(process.cwd(), 'tsconfig.json'),
     indexHTMLPath,
     outputIndexHTMLFor = ['build', 'watch'],
-    reactHotLoading = true,
+    reactHotLoading = false,
     hashFilesFor = ['build', 'watch'],
     additionalFilesToParse = [],
     env,
