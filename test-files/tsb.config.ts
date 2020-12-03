@@ -4,6 +4,7 @@ const config: Config = {
   main: 'src/ts/index.tsx',
   outDir: 'build',
   mainOutSubDir: 'js',
+  mainBundleName: 'index',
   indexHTMLPath: 'src/index.html',
   tsconfigPath: 'tsconfig.json',
   env: {

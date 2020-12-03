@@ -8,6 +8,8 @@ import { getTsconfig } from './tsconfig';
 import { getTsbConfig } from './config';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin';
+import rimraf from 'rimraf';
+import * as logger from './logger';
 
 export const createWebpackConfig = (
   configPath = CONFIG_FILE_NAME,
@@ -22,7 +24,9 @@ export const createWebpackConfig = (
     main,
     outDir,
     // Base options
+    clearOutDirBefore = ['build', 'watch'],
     mainOutSubDir,
+    mainBundleName = 'bundle',
     tsconfigPath = path.resolve(process.cwd(), 'tsconfig.json'),
     indexHTMLPath,
     outputIndexHTMLFor = ['build', 'watch'],
@@ -80,19 +84,28 @@ export const createWebpackConfig = (
         ]
       : [];
 
+  if (clearOutDirBefore.includes(command)) {
+    logger.log(`Clearing out dir...`);
+    rimraf.sync(fullOutDir);
+    logger.log(`Cleared ${fullOutDir}`);
+  }
+
   return {
     base: {
       mode,
       devtool: tsconfig.compilerOptions?.sourceMap ? 'source-map' : undefined,
       stats: 'errors-only',
-      entry: [...additionalEntries, path.resolve(fullConfigDir, main)],
+      entry: {
+        [mainBundleName]: [
+          ...additionalEntries,
+          path.resolve(fullConfigDir, main),
+        ],
+      },
       output: {
         path: fullOutDir,
         filename: `${
           bundleOutSubDirRelative ? `${bundleOutSubDirRelative}/` : ''
-        }[name].bundle${
-          hashFilesFor.includes(command) ? '.[contenthash]' : ''
-        }.js`,
+        }[name]${hashFilesFor.includes(command) ? '.[contenthash]' : ''}.js`,
         publicPath: singlePageApp ? '/' : '',
       },
       module: {
