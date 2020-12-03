@@ -26,6 +26,7 @@ export const createWebpackConfig = (
     // Base options
     clearOutDirBefore = ['build', 'watch'],
     mainOutSubDir,
+    mainBundleName = 'bundle',
     tsconfigPath = path.resolve(process.cwd(), 'tsconfig.json'),
     indexHTMLPath,
     outputIndexHTMLFor = ['build', 'watch'],
@@ -94,7 +95,12 @@ export const createWebpackConfig = (
       mode,
       devtool: tsconfig.compilerOptions?.sourceMap ? 'source-map' : undefined,
       stats: 'errors-only',
-      entry: [...additionalEntries, path.resolve(fullConfigDir, main)],
+      entry: {
+        [mainBundleName]: [
+          ...additionalEntries,
+          path.resolve(fullConfigDir, main),
+        ],
+      },
       output: {
         path: fullOutDir,
         filename: `${

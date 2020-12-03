@@ -21,6 +21,10 @@ export interface Config {
    */
   mainOutSubDir?: string;
   /**
+   * @description Name for the main bundle output
+   */
+  mainBundleName?: string;
+  /**
    * @description Path to tsconfig.json
    */
   tsconfigPath?: string;

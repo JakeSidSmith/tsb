@@ -25,6 +25,7 @@ const CONFIG_VALIDATOR = yup
       .of<Command>(yup.mixed<Command>().oneOf(['build', 'watch', 'serve']))
       .optional(),
     mainOutSubDir: yup.string().optional(),
+    mainBundleName: yup.string().optional(),
     tsconfigPath: yup.string().optional(),
     indexHTMLPath: yup.string().optional(),
     outputIndexHTMLFor: yup

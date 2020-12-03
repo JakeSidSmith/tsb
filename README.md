@@ -176,6 +176,8 @@ interface Config {
   clearOutDirBefore?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']
   // Sub-directory to output JavaScript files within `outDir`
   mainOutSubDir?: string;
+  // Name for the main bundle output
+  mainBundleName?: string; // Default: 'bundle'
   // Path to tsconfig.json
   tsconfigPath?: string; // Default: tsconfig.json in the root of the project
   // Path to a custom index.html template
