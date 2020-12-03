@@ -99,9 +99,7 @@ export const createWebpackConfig = (
         path: fullOutDir,
         filename: `${
           bundleOutSubDirRelative ? `${bundleOutSubDirRelative}/` : ''
-        }[name].bundle${
-          hashFilesFor.includes(command) ? '.[contenthash]' : ''
-        }.js`,
+        }[name]${hashFilesFor.includes(command) ? '.[contenthash]' : ''}.js`,
         publicPath: singlePageApp ? '/' : '',
       },
       module: {
