@@ -11,6 +11,7 @@ const config: Config = {
   },
   publicDir: 'static',
   publicPath: '/static/',
+  reactHotLoading: true,
 };
 
 export default config;
