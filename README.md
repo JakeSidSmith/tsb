@@ -172,6 +172,8 @@ interface Config {
   // Path to the directory to output files
   outDir: string;
   // Base options
+  // List of commands for which the outDir should be cleared before
+  clearOutDirBefore?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']
   // Sub-directory to output JavaScript files within `outDir`
   mainOutSubDir?: string;
   // Path to tsconfig.json

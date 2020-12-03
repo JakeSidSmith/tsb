@@ -13,6 +13,10 @@ export interface Config {
   outDir: string;
   // Base options
   /**
+   * @description List of commands for which the outDir should be cleared before
+   */
+  clearOutDirBefore?: readonly Command[];
+  /**
    * @description Sub-directory to output JavaScript files within `outDir`
    */
   mainOutSubDir?: string;

@@ -8,6 +8,8 @@ import { getTsconfig } from './tsconfig';
 import { getTsbConfig } from './config';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin';
+import rimraf from 'rimraf';
+import * as logger from './logger';
 
 export const createWebpackConfig = (
   configPath = CONFIG_FILE_NAME,
@@ -22,6 +24,7 @@ export const createWebpackConfig = (
     main,
     outDir,
     // Base options
+    clearOutDirBefore = ['build', 'watch'],
     mainOutSubDir,
     tsconfigPath = path.resolve(process.cwd(), 'tsconfig.json'),
     indexHTMLPath,
@@ -79,6 +82,12 @@ export const createWebpackConfig = (
           new HtmlWebpackHarddiskPlugin(),
         ]
       : [];
+
+  if (clearOutDirBefore.includes(command)) {
+    logger.log(`Clearing out dir...`);
+    rimraf.sync(fullOutDir);
+    logger.log(`Cleared ${fullOutDir}`);
+  }
 
   return {
     base: {
