@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import * as vm from 'vm';
 import * as fs from 'fs';
+import * as path from 'path';
 import { CONFIG_FILE_NAME, PROGRAM } from './constants';
 import { Command, Config } from './types';
 import * as yup from 'yup';
@@ -63,6 +64,8 @@ const CONFIG_VALIDATOR = yup
   .required();
 
 export const getTsbConfig = (configPath: string): Config => {
+  const fullConfigDir = path.dirname(configPath);
+
   const program = ts.createProgram({
     rootNames: [configPath],
     options: {
@@ -141,6 +144,15 @@ export const getTsbConfig = (configPath: string): Config => {
   }
 
   const { default: config } = sandbox.exports;
+
+  if (config.indexHTMLPath) {
+    const fullIndexHTMLPath = path.resolve(fullConfigDir, config.indexHTMLPath);
+
+    if (!fs.existsSync(fullIndexHTMLPath)) {
+      logger.error(`Could not find index file at "${fullIndexHTMLPath}"`);
+      return process.exit(1);
+    }
+  }
 
   if (config.reactHotLoading) {
     try {
