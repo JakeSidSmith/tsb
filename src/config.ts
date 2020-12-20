@@ -142,7 +142,7 @@ export const getTsbConfig = (configPath: string): Config => {
 
   const { default: config } = sandbox.exports;
 
-  if (config.reactHotLoading || typeof config.reactHotLoading === 'undefined') {
+  if (config.reactHotLoading) {
     try {
       require.resolve('react-hot-loader');
     } catch (reactHotLoaderError) {
