@@ -173,7 +173,7 @@ interface Config {
   outDir: string;
   // Base options
   // List of commands for which the outDir should be cleared before
-  clearOutDirBefore?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']
+  clearOutDirBefore?: readonly ('build' | 'watch' | 'serve')[]; // Default: []
   // Sub-directory to output JavaScript files within `outDir`
   mainOutSubDir?: string;
   // Name for the main bundle output
