@@ -149,6 +149,25 @@ export const getTsbConfig = (configPath: string): Config => {
 
   const { default: config } = sandbox.exports;
 
+  if (config.env) {
+    const missingEnvVars = Object.entries(config.env)
+      .map(([key, value]) =>
+        typeof value === 'undefined' && typeof process.env[key] === 'undefined'
+          ? key
+          : null
+      )
+      .filter((key) => key !== null);
+
+    if (missingEnvVars.length) {
+      missingEnvVars.forEach((envVar) => {
+        logger.error(
+          `Could not get value for environment variable "${envVar}"`
+        );
+      });
+      return process.exit(1);
+    }
+  }
+
   if (config.indexHTMLPath) {
     const fullIndexHTMLPath = path.resolve(fullConfigDir, config.indexHTMLPath);
 
