@@ -37,6 +37,10 @@ export interface Config {
    */
   outputIndexHTMLFor?: readonly Command[];
   /**
+   * @description Whether to add script tag to body, head, or not at all
+   */
+  insertScriptTag?: InsertScriptTag;
+  /**
    * @description Whether React hot-loading is enabled
    */
   reactHotLoading?: boolean;
@@ -87,6 +91,7 @@ export type Headers = Record<string, string>;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Env = Record<string, any>;
 export type Command = 'build' | 'watch' | 'serve';
+export type InsertScriptTag = 'body' | 'head' | false;
 
 export type Mode = 'development' | 'production';
 

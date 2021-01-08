@@ -3,7 +3,7 @@ import * as vm from 'vm';
 import * as fs from 'fs';
 import * as path from 'path';
 import { CONFIG_FILE_NAME, PROGRAM } from './constants';
-import { Command, Config } from './types';
+import { Command, Config, InsertScriptTag } from './types';
 import * as yup from 'yup';
 import * as logger from './logger';
 import * as semver from 'semver';
@@ -32,6 +32,10 @@ const CONFIG_VALIDATOR = yup
     outputIndexHTMLFor: yup
       .array()
       .of<Command>(yup.mixed<Command>().oneOf(['build', 'watch', 'serve']))
+      .optional(),
+    insertScriptTag: yup
+      .mixed<InsertScriptTag>()
+      .oneOf(['body', 'head', false])
       .optional(),
     reactHotLoading: yup.boolean().optional(),
     hashFilesFor: yup

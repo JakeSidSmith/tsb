@@ -30,6 +30,7 @@ export const createWebpackConfig = (
     tsconfigPath = path.resolve(process.cwd(), 'tsconfig.json'),
     indexHTMLPath,
     outputIndexHTMLFor = ['build', 'watch'],
+    insertScriptTag = 'body',
     reactHotLoading = false,
     hashFilesFor = ['build', 'watch'],
     additionalFilesToParse = [],
@@ -72,9 +73,11 @@ export const createWebpackConfig = (
                   template: path.resolve(fullConfigDir, indexHTMLPath),
                   filename: path.resolve(fullOutDir, 'index.html'),
                   alwaysWriteToDisk: shouldOutputHTML,
+                  inject: insertScriptTag,
                 }
               : {
                   alwaysWriteToDisk: shouldOutputHTML,
+                  inject: insertScriptTag,
                   meta: {
                     viewport: 'width=device-width, initial-scale=1',
                   },
