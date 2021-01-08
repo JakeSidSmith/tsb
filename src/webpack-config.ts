@@ -24,7 +24,7 @@ export const createWebpackConfig = (
     main,
     outDir,
     // Base options
-    clearOutDirBefore = ['build', 'watch'],
+    clearOutDirBefore = [],
     mainOutSubDir,
     mainBundleName = 'bundle',
     tsconfigPath = path.resolve(process.cwd(), 'tsconfig.json'),
