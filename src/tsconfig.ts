@@ -31,9 +31,11 @@ export const resolveTsconfigPath = (
 ): string => {
   const resolvedTsconfigPath = path.resolve(root, tsconfigPath);
 
-  const fullTsconfigPath = fs.lstatSync(resolvedTsconfigPath).isDirectory()
-    ? path.resolve(resolvedTsconfigPath, 'tsconfig.json')
-    : resolvedTsconfigPath;
+  const fullTsconfigPath =
+    fs.existsSync(resolvedTsconfigPath) &&
+    fs.lstatSync(resolvedTsconfigPath).isDirectory()
+      ? path.resolve(resolvedTsconfigPath, 'tsconfig.json')
+      : resolvedTsconfigPath;
 
   if (!fs.existsSync(fullTsconfigPath)) {
     logger.error(`Could not resolve tsconfig.json at "${fullTsconfigPath}"`);
