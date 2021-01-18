@@ -6,7 +6,7 @@ const config: Config = {
   mainOutSubDir: 'js',
   mainBundleName: 'index',
   indexHTMLPath: 'src/index.html',
-  tsconfigPath: 'tsconfig.json',
+  tsconfigPath: 'tsconfig.test.json',
   env: {
     TEST: undefined,
   },
