@@ -103,7 +103,7 @@ export type JSX =
   | 'react-native';
 
 export interface Tsconfig {
-  include: readonly string[];
+  include?: readonly string[];
   extends?: string;
   compilerOptions?: {
     jsx?: JSX;

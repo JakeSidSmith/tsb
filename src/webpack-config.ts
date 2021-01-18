@@ -4,7 +4,7 @@ import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { Command, Mode, WebpackConfigs } from './types';
 import { CONFIG_FILE_NAME, EXTENSIONS, MATCHES_EXTENSION } from './constants';
-import { getTsconfig } from './tsconfig';
+import { getTsconfig, resolveTsconfigPath } from './tsconfig';
 import { getTsbConfig } from './config';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin';
@@ -45,7 +45,7 @@ export const createWebpackConfig = (
     headers,
   } = getTsbConfig(fullConfigPath);
 
-  const fullTsconfigPath = path.resolve(fullConfigDir, tsconfigPath);
+  const fullTsconfigPath = resolveTsconfigPath(fullConfigDir, tsconfigPath);
   const fullOutDir = path.resolve(fullConfigDir, outDir);
   const bundleOutSubDirRelative = path.relative(
     fullOutDir,
@@ -115,7 +115,7 @@ export const createWebpackConfig = (
         rules: [
           {
             test: MATCHES_EXTENSION,
-            include: [...tsconfig.include].concat(
+            include: [...(tsconfig.include ?? [])].concat(
               [...additionalFilesToParse].map((comp) =>
                 path.resolve(fullConfigDir, comp)
               )
