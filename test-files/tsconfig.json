@@ -10,5 +10,5 @@
     "jsx": "react",
     "module": "CommonJS"
   },
-  "include": ["src", "tsb.config.ts"]
+  "include": ["src/**/*", "tsb.config.ts"]
 }
