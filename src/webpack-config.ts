@@ -49,7 +49,7 @@ export const createWebpackConfig = (
   const fullOutDir = path.resolve(fullConfigDir, outDir);
   const bundleOutSubDirRelative = path.relative(
     fullOutDir,
-    path.resolve(fullOutDir, mainOutSubDir ?? outDir)
+    mainOutSubDir ? path.resolve(fullOutDir, mainOutSubDir) : fullOutDir
   );
 
   const tsconfig = getTsconfig(fullTsconfigPath);
