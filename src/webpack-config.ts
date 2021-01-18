@@ -3,7 +3,12 @@ import { EnvironmentPlugin } from 'webpack';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { Command, Mode, WebpackConfigs } from './types';
-import { CONFIG_FILE_NAME, EXTENSIONS, MATCHES_EXTENSION } from './constants';
+import {
+  CONFIG_FILE_NAME,
+  EXTENSIONS,
+  MATCHES_EXTENSION,
+  MATCHES_GLOB,
+} from './constants';
 import { getTsconfig, resolveTsconfigPath } from './tsconfig';
 import { getTsbConfig } from './config';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -93,6 +98,14 @@ export const createWebpackConfig = (
     logger.log(`Cleared ${fullOutDir}`);
   }
 
+  const tsconfigInclude = (tsconfig.include ?? []).map((comp) =>
+    comp.replace(MATCHES_GLOB, '')
+  );
+
+  const additionalInclude = additionalFilesToParse.map((comp) =>
+    path.resolve(fullConfigDir, comp)
+  );
+
   return {
     base: {
       mode,
@@ -115,11 +128,7 @@ export const createWebpackConfig = (
         rules: [
           {
             test: MATCHES_EXTENSION,
-            include: [...(tsconfig.include ?? [])].concat(
-              [...additionalFilesToParse].map((comp) =>
-                path.resolve(fullConfigDir, comp)
-              )
-            ),
+            include: [...tsconfigInclude, ...additionalInclude],
             use: [
               {
                 loader: 'babel-loader',

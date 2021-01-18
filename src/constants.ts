@@ -10,6 +10,7 @@ export const EXTENSIONS = ['.ts', '.tsx', '.js', '.jsx', '.cjs', '.mjs'];
 export const MATCHES_EXTENSION = new RegExp(
   `\\.(${EXTENSIONS.map((ext) => ext.substr(1)).join('|')})$`
 );
+export const MATCHES_GLOB = /\/[*/]+\/?$/;
 
 export const VALID_JSX_OPTIONS: readonly JSX[] = [
   'preserve',
