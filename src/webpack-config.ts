@@ -154,6 +154,7 @@ export const createWebpackConfig = (
                 loader: 'ts-loader',
                 options: {
                   transpileOnly: true,
+                  configFile: fullTsconfigPath,
                 },
               },
             ],
