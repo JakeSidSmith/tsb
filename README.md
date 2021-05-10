@@ -274,6 +274,33 @@ export default hot(App);
 
 More info here: https://github.com/gaearon/react-hot-loader
 
+React hot-loading is currently implemented with [react-hot-loader](https://github.com/gaearon/react-hot-loader) and only supports React <= 16. If you want to support React 17 you can use the experimental [@pmmmwh/react-refresh-webpack-plugin](https://github.com/pmmmwh/react-refresh-webpack-plugin) with the `extendBabelPlugins` and `extendWebpackPlugins` options. You should not enable `reactHotLoading` if you are using `react-refresh`.
+
+Example with `react-refresh`:
+
+```ts
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+
+const config: Config = {
+  // ...base config...
+  reactHotLoading: false,
+  extendBabelPlugins: (plugins, mode, command) => {
+    if (command === 'serve') {
+      return [...plugins, require.resolve('react-refresh/babel')];
+    }
+
+    return plugins;
+  },
+  extendWebpackPlugins: (plugins, mode, command) => {
+    if (command === 'serve') {
+      return [...plugins, new ReactRefreshWebpackPlugin()];
+    }
+
+    return plugins;
+  },
+};
+```
+
 ## Dev server
 
 By default the dev server will create an `index.html` file for you and serve this.
