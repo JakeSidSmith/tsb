@@ -211,7 +211,7 @@ interface Config {
   headers?: Record<string, string>;
   // Extend the babel presets
   extendBabelPresets?: (
-    presets: readonly BabelPluginItem[],
+    presets: BabelPluginItem[],
     mode: Mode,
     command: Command
   ) => BabelPluginItem[];
@@ -220,16 +220,16 @@ interface Config {
     plugins: BabelPluginItem[],
     mode: Mode,
     command: Command
-  ) => readonly BabelPluginItem[];
+  ) => BabelPluginItem[];
   // Extend the webpack plugins
   extendWebpackPlugins?: (
-    plugins: readonly WebpackPlugin[],
+    plugins: WebpackPlugin[],
     mode: Mode,
     command: Command
   ) => WebpackPlugin[];
   // Extend the webpack module.rules
   extendWebpackModuleRules?: (
-    rules: readonly WebpackModuleRule[],
+    rules: WebpackModuleRule[],
     mode: Mode,
     command: Command
   ) => WebpackModuleRule[];

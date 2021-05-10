@@ -94,7 +94,7 @@ export interface Config {
    * @description Extend the babel presets
    */
   extendBabelPresets?: (
-    presets: readonly BabelPluginItem[],
+    presets: BabelPluginItem[],
     mode: Mode,
     command: Command
   ) => BabelPluginItem[];
@@ -102,7 +102,7 @@ export interface Config {
    * @description Extend the babel plugins
    */
   extendBabelPlugins?: (
-    plugins: readonly BabelPluginItem[],
+    plugins: BabelPluginItem[],
     mode: Mode,
     command: Command
   ) => BabelPluginItem[];
@@ -110,7 +110,7 @@ export interface Config {
    * @description Extend the webpack plugins
    */
   extendWebpackPlugins?: (
-    plugins: readonly WebpackPlugin[],
+    plugins: WebpackPlugin[],
     mode: Mode,
     command: Command
   ) => WebpackPlugin[];
@@ -118,7 +118,7 @@ export interface Config {
    * @description Extend the webpack module.rules
    */
   extendWebpackModuleRules?: (
-    rules: readonly WebpackModuleRule[],
+    rules: WebpackModuleRule[],
     mode: Mode,
     command: Command
   ) => WebpackModuleRule[];
