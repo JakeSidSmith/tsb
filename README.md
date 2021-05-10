@@ -79,10 +79,10 @@ tsconfig.json
 ```
 
 ```ts
-import { Config } from '../src';
+import { Config } from '@jakesidsmith/tsb';
 
 const config: Config = {
-  main: 'src/index.tsx,
+  main: 'src/index.tsx',
   outDir: 'build',
 };
 
