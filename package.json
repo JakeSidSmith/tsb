@@ -45,6 +45,7 @@
   "dependencies": {
     "@babel/core": "^7.12.7",
     "@babel/preset-env": "^7.12.7",
+    "@types/babel__core": "^7.1.14",
     "@types/semver": "^7.3.4",
     "@types/webpack-dev-server": "^3.11.1",
     "babel-loader": "^8.2.1",
