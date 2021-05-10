@@ -1,3 +1,4 @@
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import { Config } from '../src';
 
 const config: Config = {
@@ -12,7 +13,21 @@ const config: Config = {
   },
   publicDir: 'static',
   publicPath: '/static/',
-  reactHotLoading: true,
+  reactHotLoading: false,
+  extendBabelPlugins: (plugins, _mode, command) => {
+    if (command === 'serve') {
+      return [...plugins, require.resolve('react-refresh/babel')];
+    }
+
+    return plugins;
+  },
+  extendWebpackPlugins: (plugins, _mode, command) => {
+    if (command === 'serve') {
+      return [...plugins, new ReactRefreshWebpackPlugin()];
+    }
+
+    return plugins;
+  },
 };
 
 export default config;

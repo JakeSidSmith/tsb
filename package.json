@@ -1,6 +1,6 @@
 {
   "name": "@jakesidsmith/tsb",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Dead simple TypeScript bundler, watcher, dev server, transpiler, and polyfiller",
   "publishConfig": {
     "access": "public"
@@ -45,6 +45,7 @@
   "dependencies": {
     "@babel/core": "^7.12.7",
     "@babel/preset-env": "^7.12.7",
+    "@types/babel__core": "^7.1.14",
     "@types/semver": "^7.3.4",
     "@types/webpack-dev-server": "^3.11.1",
     "babel-loader": "^8.2.1",
@@ -66,6 +67,7 @@
   },
   "devDependencies": {
     "@hot-loader/react-dom": "^16.14.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@types/node": "^12.19.6",
     "@types/react": "^16.14.2",
     "@types/react-dom": "^16.9.10",

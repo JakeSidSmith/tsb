@@ -70,15 +70,39 @@ const CONFIG_VALIDATOR = yup
 export const getTsbConfig = (configPath: string): Config => {
   const fullConfigDir = path.dirname(configPath);
 
+  const tsconfigPath = path.join(process.cwd(), 'tsconfig.json');
+  const json = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
+
+  if (json.error) {
+    logger.error(`Error reading ${tsconfigPath}`);
+    logger.error(ts.flattenDiagnosticMessageText(json.error.messageText, '\n'));
+    process.exit(1);
+  }
+
+  const configFileContent = ts.parseJsonConfigFileContent(
+    json.config,
+    ts.sys,
+    process.cwd()
+  );
+
+  if (configFileContent.errors.length) {
+    logger.error(`Error parsing ${tsconfigPath}`);
+    logger.error(
+      configFileContent.errors
+        .map((diag) => ts.flattenDiagnosticMessageText(diag.messageText, '\n'))
+        .join('\n')
+    );
+    process.exit(1);
+  }
+
+  const compilerOptions = {
+    ...configFileContent.options,
+    module: ts.ModuleKind.CommonJS,
+  };
+
   const program = ts.createProgram({
     rootNames: [configPath],
-    options: {
-      strict: true,
-      noEmit: true,
-      target: ts.ScriptTarget.ESNext,
-      moduleResolution: ts.ModuleResolutionKind.NodeJs,
-      module: ts.ModuleKind.CommonJS,
-    },
+    options: compilerOptions,
   });
 
   const sourceFile = program.getSourceFile(configPath);
@@ -103,13 +127,7 @@ export const getTsbConfig = (configPath: string): Config => {
 
   const transpileResult = ts.transpileModule(sourceFile.getText(), {
     fileName: configPath,
-    compilerOptions: {
-      strict: true,
-      noEmit: true,
-      target: ts.ScriptTarget.ESNext,
-      moduleResolution: ts.ModuleResolutionKind.NodeJs,
-      module: ts.ModuleKind.CommonJS,
-    },
+    compilerOptions,
   });
 
   if (transpileResult.diagnostics?.length) {

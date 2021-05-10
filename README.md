@@ -79,10 +79,10 @@ tsconfig.json
 ```
 
 ```ts
-import { Config } from '../src';
+import { Config } from '@jakesidsmith/tsb';
 
 const config: Config = {
-  main: 'src/index.tsx,
+  main: 'src/index.tsx',
   outDir: 'build',
 };
 
@@ -209,6 +209,30 @@ interface Config {
   singlePageApp?: boolean; // Default: true
   // Custom headers to send with dev server requests
   headers?: Record<string, string>;
+  // Extend the babel presets
+  extendBabelPresets?: (
+    presets: BabelPluginItem[],
+    mode: Mode,
+    command: Command
+  ) => BabelPluginItem[];
+  // Extend the babel plugins
+  extendBabelPlugins?: (
+    plugins: BabelPluginItem[],
+    mode: Mode,
+    command: Command
+  ) => BabelPluginItem[];
+  // Extend the webpack plugins
+  extendWebpackPlugins?: (
+    plugins: WebpackPlugin[],
+    mode: Mode,
+    command: Command
+  ) => WebpackPlugin[];
+  // Extend the webpack module.rules
+  extendWebpackModuleRules?: (
+    rules: WebpackModuleRule[],
+    mode: Mode,
+    command: Command
+  ) => WebpackModuleRule[];
 }
 ```
 
@@ -249,6 +273,33 @@ export default hot(App);
 ```
 
 More info here: https://github.com/gaearon/react-hot-loader
+
+React hot-loading is currently implemented with [react-hot-loader](https://github.com/gaearon/react-hot-loader) and only supports React <= 16. If you want to support React 17 you can use the experimental [@pmmmwh/react-refresh-webpack-plugin](https://github.com/pmmmwh/react-refresh-webpack-plugin) with the `extendBabelPlugins` and `extendWebpackPlugins` options. You should not enable `reactHotLoading` if you are using `react-refresh`.
+
+Example with `react-refresh`:
+
+```ts
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+
+const config: Config = {
+  // ...base config...
+  reactHotLoading: false,
+  extendBabelPlugins: (plugins, mode, command) => {
+    if (command === 'serve') {
+      return [...plugins, require.resolve('react-refresh/babel')];
+    }
+
+    return plugins;
+  },
+  extendWebpackPlugins: (plugins, mode, command) => {
+    if (command === 'serve') {
+      return [...plugins, new ReactRefreshWebpackPlugin()];
+    }
+
+    return plugins;
+  },
+};
+```
 
 ## Dev server
 
