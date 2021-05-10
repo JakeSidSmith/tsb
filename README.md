@@ -214,10 +214,10 @@ interface Config {
     presets: readonly BabelPluginItem[],
     mode: Mode,
     command: Command
-  ) => readonly BabelPluginItem[];
+  ) => BabelPluginItem[];
   // Extend the babel plugins
   extendBabelPlugins?: (
-    plugins: readonly BabelPluginItem[],
+    plugins: BabelPluginItem[],
     mode: Mode,
     command: Command
   ) => readonly BabelPluginItem[];
@@ -226,13 +226,13 @@ interface Config {
     plugins: readonly WebpackPlugin[],
     mode: Mode,
     command: Command
-  ) => readonly WebpackPlugin[];
+  ) => WebpackPlugin[];
   // Extend the webpack module.rules
   extendWebpackModuleRules?: (
     rules: readonly WebpackModuleRule[],
     mode: Mode,
     command: Command
-  ) => readonly WebpackModuleRule[];
+  ) => WebpackModuleRule[];
 }
 ```
 

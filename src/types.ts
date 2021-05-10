@@ -97,7 +97,7 @@ export interface Config {
     presets: readonly BabelPluginItem[],
     mode: Mode,
     command: Command
-  ) => readonly BabelPluginItem[];
+  ) => BabelPluginItem[];
   /**
    * @description Extend the babel plugins
    */
@@ -105,7 +105,7 @@ export interface Config {
     plugins: readonly BabelPluginItem[],
     mode: Mode,
     command: Command
-  ) => readonly BabelPluginItem[];
+  ) => BabelPluginItem[];
   /**
    * @description Extend the webpack plugins
    */
@@ -113,7 +113,7 @@ export interface Config {
     plugins: readonly WebpackPlugin[],
     mode: Mode,
     command: Command
-  ) => readonly WebpackPlugin[];
+  ) => WebpackPlugin[];
   /**
    * @description Extend the webpack module.rules
    */
@@ -121,7 +121,7 @@ export interface Config {
     rules: readonly WebpackModuleRule[],
     mode: Mode,
     command: Command
-  ) => readonly WebpackModuleRule[];
+  ) => WebpackModuleRule[];
 }
 
 export type Headers = Record<string, string>;
