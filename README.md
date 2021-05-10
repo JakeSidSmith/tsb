@@ -209,6 +209,30 @@ interface Config {
   singlePageApp?: boolean; // Default: true
   // Custom headers to send with dev server requests
   headers?: Record<string, string>;
+  // Extend the babel presets
+  extendBabelPresets?: (
+    presets: readonly BabelPluginItem[],
+    mode: Mode,
+    command: Command
+  ) => readonly BabelPluginItem[];
+  // Extend the babel plugins
+  extendBabelPlugins?: (
+    plugins: readonly BabelPluginItem[],
+    mode: Mode,
+    command: Command
+  ) => readonly BabelPluginItem[];
+  // Extend the webpack plugins
+  extendWebpackPlugins?: (
+    plugins: readonly WebpackPlugin[],
+    mode: Mode,
+    command: Command
+  ) => readonly WebpackPlugin[];
+  // Extend the webpack module.rules
+  extendWebpackModuleRules?: (
+    rules: readonly WebpackModuleRule[],
+    mode: Mode,
+    command: Command
+  ) => readonly WebpackModuleRule[];
 }
 ```
 

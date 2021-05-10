@@ -1,5 +1,10 @@
-import { Configuration } from 'webpack';
+import {
+  Configuration,
+  Plugin as WebpackPlugin,
+  RuleSetRule as WebpackModuleRule,
+} from 'webpack';
 import { Configuration as DevServerConfiguration } from 'webpack-dev-server';
+import { PluginItem as BabelPluginItem } from '@babel/core';
 
 export interface Config {
   // Required
@@ -85,6 +90,38 @@ export interface Config {
    * @description Custom headers to send with dev server requests
    */
   headers?: Headers;
+  /**
+   * @description Extend the babel presets
+   */
+  extendBabelPresets?: (
+    presets: readonly BabelPluginItem[],
+    mode: Mode,
+    command: Command
+  ) => readonly BabelPluginItem[];
+  /**
+   * @description Extend the babel plugins
+   */
+  extendBabelPlugins?: (
+    plugins: readonly BabelPluginItem[],
+    mode: Mode,
+    command: Command
+  ) => readonly BabelPluginItem[];
+  /**
+   * @description Extend the webpack plugins
+   */
+  extendWebpackPlugins?: (
+    plugins: readonly WebpackPlugin[],
+    mode: Mode,
+    command: Command
+  ) => readonly WebpackPlugin[];
+  /**
+   * @description Extend the webpack module.rules
+   */
+  extendWebpackModuleRules?: (
+    rules: readonly WebpackModuleRule[],
+    mode: Mode,
+    command: Command
+  ) => readonly WebpackModuleRule[];
 }
 
 export type Headers = Record<string, string>;
