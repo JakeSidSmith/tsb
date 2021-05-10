@@ -10,6 +10,7 @@
     "noEmit": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "target": "ES2015",
     "moduleResolution": "Node",
     "module": "ESNext"
