@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import { hot } from 'react-hot-loader/root';
 import Sub from './sub';
 
 const App = () => {
@@ -11,4 +10,4 @@ const App = () => {
   );
 };
 
-export default hot(memo(App));
+export default memo(App);
