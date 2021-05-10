@@ -48,6 +48,10 @@ export const createWebpackConfig = (
     publicPath,
     singlePageApp = true,
     headers,
+    extendBabelPresets,
+    extendBabelPlugins,
+    extendWebpackPlugins,
+    extendWebpackModuleRules,
   } = getTsbConfig(fullConfigPath);
 
   const fullTsconfigPath = resolveTsconfigPath(fullConfigDir, tsconfigPath);
@@ -63,6 +67,19 @@ export const createWebpackConfig = (
 
   const additionalEntries = isReactAppDev ? ['react-hot-loader/patch'] : [];
   const babelPlugins = isReactAppDev ? ['react-hot-loader/babel'] : [];
+  const babelPresets = [
+    [
+      '@babel/preset-env',
+      {
+        modules: false,
+        useBuiltIns: 'usage',
+        corejs: {
+          version: 3,
+          proposals: true,
+        },
+      },
+    ],
+  ];
   const alias: Record<string, string> = isReactAppDev
     ? { ['react-dom']: '@hot-loader/react-dom' }
     : {};
@@ -106,6 +123,47 @@ export const createWebpackConfig = (
     path.resolve(fullConfigDir, comp)
   );
 
+  const webpackModuleRules = [
+    {
+      test: MATCHES_EXTENSION,
+      include: [...tsconfigInclude, ...additionalInclude],
+      use: [
+        {
+          loader: 'babel-loader',
+          options: {
+            babelrc: false,
+            presets: extendBabelPresets
+              ? extendBabelPresets(babelPresets, mode, command)
+              : babelPresets,
+            plugins: extendBabelPlugins
+              ? extendBabelPlugins(babelPlugins, mode, command)
+              : babelPlugins,
+          },
+        },
+        {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+            configFile: fullTsconfigPath,
+          },
+        },
+      ],
+    },
+  ];
+
+  const webpackPlugins = [
+    new EnvironmentPlugin({
+      NODE_ENV: mode === 'production' ? mode : 'development',
+      ...env,
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        configFile: fullTsconfigPath,
+      },
+    }),
+    ...htmlPlugins,
+  ];
+
   return {
     base: {
       mode,
@@ -125,41 +183,9 @@ export const createWebpackConfig = (
         publicPath: singlePageApp ? '/' : '',
       },
       module: {
-        rules: [
-          {
-            test: MATCHES_EXTENSION,
-            include: [...tsconfigInclude, ...additionalInclude],
-            use: [
-              {
-                loader: 'babel-loader',
-                options: {
-                  babelrc: false,
-                  presets: [
-                    [
-                      '@babel/preset-env',
-                      {
-                        modules: false,
-                        useBuiltIns: 'usage',
-                        corejs: {
-                          version: 3,
-                          proposals: true,
-                        },
-                      },
-                    ],
-                  ],
-                  plugins: babelPlugins,
-                },
-              },
-              {
-                loader: 'ts-loader',
-                options: {
-                  transpileOnly: true,
-                  configFile: fullTsconfigPath,
-                },
-              },
-            ],
-          },
-        ],
+        rules: extendWebpackModuleRules
+          ? extendWebpackModuleRules(webpackModuleRules, mode, command)
+          : webpackModuleRules,
       },
       resolve: {
         extensions: EXTENSIONS,
@@ -171,18 +197,9 @@ export const createWebpackConfig = (
         ],
         alias,
       },
-      plugins: [
-        new EnvironmentPlugin({
-          NODE_ENV: mode === 'production' ? mode : 'development',
-          ...env,
-        }),
-        new ForkTsCheckerWebpackPlugin({
-          typescript: {
-            configFile: fullTsconfigPath,
-          },
-        }),
-        ...htmlPlugins,
-      ],
+      plugins: extendWebpackPlugins
+        ? extendWebpackPlugins(webpackPlugins, mode, command)
+        : webpackPlugins,
     },
     devServer: {
       hot: hotLoading,
