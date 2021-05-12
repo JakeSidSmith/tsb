@@ -11,6 +11,7 @@ import * as semver from 'semver';
 interface Sandbox {
   require: typeof require;
   process: typeof process;
+  console: Console;
   exports: { default?: Config };
 }
 
@@ -147,6 +148,7 @@ export const getTsbConfig = (configPath: string): Config => {
   const sandbox: Sandbox = {
     require,
     process,
+    console,
     exports: {},
   };
   script.runInNewContext(sandbox);
