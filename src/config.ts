@@ -1,5 +1,4 @@
 import * as ts from 'typescript';
-import * as vm from 'vm';
 import * as fs from 'fs';
 import * as path from 'path';
 import { CONFIG_FILE_NAME, PROGRAM } from './constants';
@@ -7,12 +6,6 @@ import { Command, Config, InsertScriptTag } from './types';
 import * as yup from 'yup';
 import * as logger from './logger';
 import * as semver from 'semver';
-
-interface Sandbox {
-  require: typeof require;
-  process: typeof process;
-  exports: { default?: Config };
-}
 
 const CONFIG_VALIDATOR = yup
   .object()
@@ -141,23 +134,31 @@ export const getTsbConfig = (configPath: string): Config => {
     process.exit(1);
   }
 
-  const script = new vm.Script(transpileResult.outputText, {
-    filename: configPath,
-  });
-  const sandbox: Sandbox = {
-    require,
-    process,
-    exports: {},
-  };
-  script.runInNewContext(sandbox);
+  const tsbConfigFunction = Function(
+    'exports',
+    'require',
+    'process',
+    'console',
+    transpileResult.outputText
+  );
 
-  if (!sandbox.exports.default) {
+  const tsbConfigExports: Record<string, unknown> = {};
+
+  try {
+    tsbConfigFunction(tsbConfigExports, require, process, console);
+  } catch (error) {
+    logger.error(error);
+    logger.error('Error running tsb.config.ts');
+    return process.exit(1);
+  }
+
+  if (!tsbConfigExports.default) {
     logger.error('Your tsb.config.ts must export a default');
     return process.exit(1);
   }
 
   try {
-    CONFIG_VALIDATOR.validateSync(sandbox.exports.default);
+    CONFIG_VALIDATOR.validateSync(tsbConfigExports.default);
   } catch (error) {
     logger.error(error.errors.join('\n'));
 
@@ -165,7 +166,7 @@ export const getTsbConfig = (configPath: string): Config => {
     return process.exit(1);
   }
 
-  const { default: config } = sandbox.exports;
+  const { default: config } = tsbConfigExports as { default: Config };
 
   if (config.env) {
     const missingEnvVars = Object.entries(config.env)

@@ -1,4 +1,5 @@
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import path from 'path';
 import { Config } from '../src';
 
 const config: Config = {
@@ -27,6 +28,26 @@ const config: Config = {
     }
 
     return plugins;
+  },
+  extendWebpackModuleRules: (rules) => {
+    return [
+      ...rules,
+      {
+        test: /\.svg$/,
+        include: [path.resolve('test-files/src/svg')],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+            },
+          },
+          {
+            loader: 'react-svg-loader',
+          },
+        ],
+      },
+    ];
   },
 };
 
