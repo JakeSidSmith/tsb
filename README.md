@@ -182,6 +182,8 @@ interface Config {
   tsconfigPath?: string; // Default: tsconfig.json in the root of the project
   // Path to a custom index.html template
   indexHTMLPath?: string;
+  // Variables to expose to the index.html template (referenced with <%= example %>)
+  indexHTMLEnv?: Record<string, any>;
   // List of commands for which to output index.html to disk
   outputIndexHTMLFor?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']
   // Whether to add script tag to body, head, or not at all

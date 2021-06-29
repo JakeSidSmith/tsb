@@ -38,6 +38,10 @@ export interface Config {
    */
   indexHTMLPath?: string;
   /**
+   * @description Variables to expose to the index.html template (referenced with <%= example %>)
+   */
+  indexHTMLEnv?: Env;
+  /**
    * @description List of commands for which to output index.html to disk
    */
   outputIndexHTMLFor?: readonly Command[];
