@@ -26,6 +26,7 @@ Out of the box tsb offers you:
 - Dead code elimination
 - Expose [environment variables](#environment-variables) and define defaults (with [webpack environment plugin](https://webpack.js.org/plugins/environment-plugin/))
 - Load environment variables from a `.env` file (with [dotenv](https://github.com/motdotla/dotenv))
+- Reference environment variables in your `index.html` template
 - Hot-loading
 - React hot-loading (with a little [extra setup](#react-hot-loading))
 - Bundle hashing
