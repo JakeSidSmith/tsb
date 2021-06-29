@@ -34,6 +34,7 @@ export const createWebpackConfig = (
     mainBundleName = 'bundle',
     tsconfigPath = path.resolve(process.cwd(), 'tsconfig.json'),
     indexHTMLPath,
+    indexHTMLEnv = {},
     outputIndexHTMLFor = ['build', 'watch'],
     insertScriptTag = 'body',
     reactHotLoading = false,
@@ -96,6 +97,7 @@ export const createWebpackConfig = (
                   filename: path.resolve(fullOutDir, 'index.html'),
                   alwaysWriteToDisk: shouldOutputHTML,
                   inject: insertScriptTag,
+                  templateParameters: indexHTMLEnv,
                 }
               : {
                   alwaysWriteToDisk: shouldOutputHTML,
@@ -103,6 +105,7 @@ export const createWebpackConfig = (
                   meta: {
                     viewport: 'width=device-width, initial-scale=1',
                   },
+                  templateParameters: indexHTMLEnv,
                 }
           ),
           new HtmlWebpackHarddiskPlugin(),

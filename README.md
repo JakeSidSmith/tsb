@@ -26,6 +26,7 @@ Out of the box tsb offers you:
 - Dead code elimination
 - Expose [environment variables](#environment-variables) and define defaults (with [webpack environment plugin](https://webpack.js.org/plugins/environment-plugin/))
 - Load environment variables from a `.env` file (with [dotenv](https://github.com/motdotla/dotenv))
+- Reference environment variables in your `index.html` template
 - Hot-loading
 - React hot-loading (with a little [extra setup](#react-hot-loading))
 - Bundle hashing
@@ -182,6 +183,8 @@ interface Config {
   tsconfigPath?: string; // Default: tsconfig.json in the root of the project
   // Path to a custom index.html template
   indexHTMLPath?: string;
+  // Variables to expose to the index.html template (referenced with <%= example %>)
+  indexHTMLEnv?: Record<string, any>;
   // List of commands for which to output index.html to disk
   outputIndexHTMLFor?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']
   // Whether to add script tag to body, head, or not at all
