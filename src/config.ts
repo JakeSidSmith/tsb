@@ -181,11 +181,43 @@ export const getTsbConfig = (configPath: string): Config => {
     if (missingEnvVars.length) {
       missingEnvVars.forEach((envVar) => {
         logger.error(
-          `Could not get value for environment variable "${envVar}"`
+          `Could not get value for environment variable "${envVar}" defined in config.env`
         );
       });
       return process.exit(1);
     }
+  }
+
+  let { indexHTMLEnv } = config;
+
+  if (indexHTMLEnv) {
+    const missingEnvVars = Object.entries(indexHTMLEnv)
+      .map(([key, value]) =>
+        typeof value === 'undefined' && typeof process.env[key] === 'undefined'
+          ? key
+          : null
+      )
+      .filter((key) => key !== null);
+
+    if (missingEnvVars.length) {
+      missingEnvVars.forEach((envVar) => {
+        logger.error(
+          `Could not get value for environment variable "${envVar}" defined in config.indexHTMLEnv`
+        );
+      });
+      return process.exit(1);
+    }
+
+    indexHTMLEnv = Object.entries(indexHTMLEnv).reduce((memo, [key]) => {
+      if (typeof process.env[key] !== 'undefined') {
+        return {
+          ...memo,
+          [key]: process.env[key],
+        };
+      }
+
+      return memo;
+    }, indexHTMLEnv);
   }
 
   if (config.indexHTMLPath) {
@@ -267,5 +299,8 @@ export const getTsbConfig = (configPath: string): Config => {
     }
   }
 
-  return config;
+  return {
+    ...config,
+    indexHTMLEnv,
+  };
 };
