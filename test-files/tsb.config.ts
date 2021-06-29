@@ -9,7 +9,7 @@ const config: Config = {
   mainBundleName: 'index',
   indexHTMLPath: 'src/index.html',
   indexHTMLEnv: {
-    TEST: 'Hello, World!',
+    TEST: undefined,
   },
   tsconfigPath: 'tsconfig.test.json',
   env: {
