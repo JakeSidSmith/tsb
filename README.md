@@ -112,10 +112,10 @@ For a more complex project with the following structure:
 ```
 
 ```ts
-import { Config } from '../src';
+import { Config } from '@jakesidsmith/tsb';
 
 const config: Config = {
-  main: 'src/ts/index.tsx,
+  main: 'src/ts/index.tsx',
   outDir: 'build',
   mainOutSubDir: 'js',
   indexHTMLPath: 'src/index.html',
