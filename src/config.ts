@@ -6,6 +6,7 @@ import { Command, Config, InsertScriptTag } from './types';
 import * as yup from 'yup';
 import * as logger from './logger';
 import * as semver from 'semver';
+import { getErrorMessages } from './utils';
 
 const CONFIG_VALIDATOR = yup
   .object()
@@ -161,7 +162,7 @@ export const getTsbConfig = (configPath: string): Config => {
   try {
     CONFIG_VALIDATOR.validateSync(tsbConfigExports.default);
   } catch (error) {
-    logger.error(error.errors.join('\n'));
+    logger.error(getErrorMessages(error));
 
     logger.error(`Invalid ${CONFIG_FILE_NAME}`);
     return process.exit(1);

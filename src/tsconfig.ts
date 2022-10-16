@@ -5,6 +5,7 @@ import * as ts from 'typescript';
 import * as logger from './logger';
 import { Tsconfig } from './types';
 import { VALID_JSX_OPTIONS } from './constants';
+import { getErrorMessages } from './utils';
 
 const TSCONFIG_VALIDATOR = yup
   .object()
@@ -64,7 +65,7 @@ export const resolveTsconfig = (
   try {
     TSCONFIG_VALIDATOR.validateSync(validTsconfig);
   } catch (error) {
-    logger.error(error.errors.join('\n'));
+    logger.error(getErrorMessages(error));
     logger.error(`Invalid tsconfig.json at "${tsconfigPath}"`);
     return process.exit(1);
   }

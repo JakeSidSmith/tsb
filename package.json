@@ -1,6 +1,6 @@
 {
   "name": "@jakesidsmith/tsb",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Dead simple TypeScript bundler, watcher, dev server, transpiler, and polyfiller",
   "publishConfig": {
     "access": "public"
@@ -10,12 +10,13 @@
     "tsb": "dist/cli.js"
   },
   "scripts": {
-    "test-build": "rm -rf dist && npm run dist && ./dist/cli.js build --config test-files/tsb.config.ts",
-    "test-watch": "rm -rf dist && npm run dist && ./dist/cli.js watch --config test-files/tsb.config.ts",
-    "test-serve": "rm -rf dist && npm run dist && ./dist/cli.js serve --config test-files/tsb.config.ts",
+    "create-dotenv": "echo 'TEST=test' > .env",
+    "test-build": "npm run create-dotenv && rm -rf dist && npm run dist && ./dist/cli.js build --config test-files/tsb.config.ts",
+    "test-watch": "npm run create-dotenv && rm -rf dist && npm run dist && ./dist/cli.js watch --config test-files/tsb.config.ts",
+    "test-serve": "npm run create-dotenv && rm -rf dist && npm run dist && ./dist/cli.js serve --config test-files/tsb.config.ts",
     "dist": "rm -rf dist && tsc --project tsconfig.dist.json && chmod +x dist/cli.js",
-    "prettier": "prettier --write '*'",
-    "lint": "prettier --check '*' && eslint '**/*.{js,jsx,ts,tsx}'",
+    "prettier": "prettier --write .",
+    "lint": "prettier --check . && eslint '**/*.{js,jsx,ts,tsx}'",
     "typecheck": "tsc --noEmit && tsc --noEmit --project test-files/tsconfig.json",
     "test": "npm run typecheck && npm run lint",
     "prepublishOnly": "npm test && npm run dist"
@@ -66,18 +67,18 @@
     "yup": "^0.30.0"
   },
   "devDependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
-    "@types/node": "^12.19.6",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",
+    "@types/node": "^16.11.66",
     "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.3",
     "@types/rimraf": "^3.0.0",
     "@types/yup": "^0.29.9",
-    "@typescript-eslint/eslint-plugin": "^4.8.1",
-    "@typescript-eslint/parser": "^4.8.1",
-    "eslint": "^7.14.0",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.40.0",
+    "@typescript-eslint/parser": "^5.40.0",
+    "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-svg-loader": "^3.0.3"

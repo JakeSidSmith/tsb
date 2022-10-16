@@ -66,11 +66,15 @@ export const createWebpackConfig = (
 
   const isReactAppDev = reactHotLoading && mode === 'development';
 
-  const additionalEntries = isReactAppDev ? ['react-hot-loader/patch'] : [];
-  const babelPlugins = isReactAppDev ? ['react-hot-loader/babel'] : [];
+  const additionalEntries = isReactAppDev
+    ? [require.resolve('react-hot-loader/patch')]
+    : [];
+  const babelPlugins = isReactAppDev
+    ? [require.resolve('react-hot-loader/babel')]
+    : [];
   const babelPresets = [
     [
-      '@babel/preset-env',
+      require.resolve('@babel/preset-env'),
       {
         modules: false,
         useBuiltIns: 'usage',
@@ -132,7 +136,7 @@ export const createWebpackConfig = (
       include: [...tsconfigInclude, ...additionalInclude],
       use: [
         {
-          loader: 'babel-loader',
+          loader: require.resolve('babel-loader'),
           options: {
             babelrc: false,
             presets: extendBabelPresets
@@ -144,7 +148,7 @@ export const createWebpackConfig = (
           },
         },
         {
-          loader: 'ts-loader',
+          loader: require.resolve('ts-loader'),
           options: {
             transpileOnly: true,
             configFile: fullTsconfigPath,
