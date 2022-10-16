@@ -121,7 +121,7 @@ const config: Config = {
   indexHTMLPath: 'src/index.html',
   tsconfigPath: 'src/tsconfig.json',
   publicDir: 'public',
-  publicPath: '/public/'
+  publicPath: '/public/',
 };
 
 export default config;
