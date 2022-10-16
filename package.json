@@ -67,7 +67,7 @@
     "yup": "^0.30.0"
   },
   "devDependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",
     "@types/node": "^12.19.6",
     "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.3",
