@@ -1,6 +1,7 @@
 /coverage/*
 /build/*
 /dist/*
+/test-files/build/*
 
 .browserslistrc
 .DS_Store
