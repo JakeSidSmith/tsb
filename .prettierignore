@@ -1,3 +1,7 @@
+/coverage/*
+/build/*
+/dist/*
+
 .browserslistrc
 .DS_Store
 .eslintignore
