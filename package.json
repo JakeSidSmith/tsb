@@ -1,6 +1,6 @@
 {
   "name": "@jakesidsmith/tsb",
-  "version": "0.2.3",
+  "version": "1.0.0",
   "description": "Dead simple TypeScript bundler, watcher, dev server, transpiler, and polyfiller",
   "publishConfig": {
     "access": "public"
@@ -61,7 +61,7 @@
     "semver": "^7.3.2",
     "ts-loader": "^8.0.11",
     "tsconfig-paths-webpack-plugin": "^3.3.0",
-    "typescript": "^4.1.2",
+    "typescript": "^5.0.2",
     "webpack": "^4.44.2",
     "webpack-dev-server": "^3.11.0",
     "yup": "^0.30.0"
