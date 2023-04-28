@@ -95,6 +95,10 @@ export interface Config {
    */
   headers?: Headers;
   /**
+   * @description Whether to enable https (self signed certificate)
+   */
+  https?: boolean;
+  /**
    * @description Extend the babel presets
    */
   extendBabelPresets?: (

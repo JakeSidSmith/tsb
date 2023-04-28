@@ -212,6 +212,8 @@ interface Config {
   singlePageApp?: boolean; // Default: true
   // Custom headers to send with dev server requests
   headers?: Record<string, string>;
+  // Whether to enable https (self signed certificate)
+  https?: boolean;
   // Extend the babel presets
   extendBabelPresets?: (
     presets: BabelPluginItem[],

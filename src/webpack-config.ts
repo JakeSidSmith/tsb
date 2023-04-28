@@ -49,6 +49,7 @@ export const createWebpackConfig = (
     publicPath,
     singlePageApp = true,
     headers,
+    https,
     extendBabelPresets,
     extendBabelPlugins,
     extendWebpackPlugins,
@@ -211,6 +212,7 @@ export const createWebpackConfig = (
     devServer: {
       hot: hotLoading,
       inline: true,
+      https,
       host,
       port,
       ...(singlePageApp
