@@ -1,7 +1,7 @@
 import { Stats } from 'webpack';
 import * as logger from './logger';
 
-type WebpackCallback = (error?: Error, stats?: Stats) => void;
+type WebpackCallback = (error?: Error | null, stats?: Stats) => void;
 
 export const createWebpackCallback =
   (exit: boolean): WebpackCallback =>
