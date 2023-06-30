@@ -1,6 +1,6 @@
 import {
   Configuration,
-  Plugin as WebpackPlugin,
+  WebpackPluginInstance,
   RuleSetRule as WebpackModuleRule,
 } from 'webpack';
 import { Configuration as DevServerConfiguration } from 'webpack-dev-server';
@@ -118,10 +118,10 @@ export interface Config {
    * @description Extend the webpack plugins
    */
   extendWebpackPlugins?: (
-    plugins: WebpackPlugin[],
+    plugins: WebpackPluginInstance[],
     mode: Mode,
     command: Command
-  ) => WebpackPlugin[];
+  ) => WebpackPluginInstance[];
   /**
    * @description Extend the webpack module.rules
    */
