@@ -1,6 +1,6 @@
 {
   "name": "@jakesidsmith/tsb",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Dead simple TypeScript bundler, watcher, dev server, transpiler, and polyfiller",
   "publishConfig": {
     "access": "public"
