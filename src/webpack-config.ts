@@ -37,6 +37,7 @@ export const createWebpackConfig = (
     indexHTMLEnv = {},
     outputIndexHTMLFor = ['build', 'watch'],
     insertScriptTag = 'body',
+    scriptLoading = 'blocking',
     reactHotLoading = false,
     hashFilesFor = ['build', 'watch'],
     additionalFilesToParse = [],
@@ -102,11 +103,13 @@ export const createWebpackConfig = (
                   filename: path.resolve(fullOutDir, 'index.html'),
                   alwaysWriteToDisk: shouldOutputHTML,
                   inject: insertScriptTag,
+                  scriptLoading,
                   templateParameters: indexHTMLEnv,
                 }
               : {
                   alwaysWriteToDisk: shouldOutputHTML,
                   inject: insertScriptTag,
+                  scriptLoading,
                   meta: {
                     viewport: 'width=device-width, initial-scale=1',
                   },

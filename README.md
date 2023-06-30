@@ -189,6 +189,8 @@ interface Config {
   outputIndexHTMLFor?: readonly ('build' | 'watch' | 'serve')[]; // Default: ['build', 'watch']
   // Whether to add script tag to body, head, or not at all
   insertScriptTag?: 'body' | 'head' | false; // Default: 'body'
+  // Whether add "defer" attribute to script tag.
+  scriptLoading?: 'blocking' | 'defer' | 'module'; // default 'blocking'
   // Whether React hot-loading is enabled
   reactHotLoading?: boolean; // Default: false
   // List of commands for which output bundles are hashed
