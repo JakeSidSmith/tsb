@@ -50,6 +50,10 @@ export interface Config {
    */
   insertScriptTag?: InsertScriptTag;
   /**
+   * @description Whether add "defer" attribute to script tag.
+   */
+  scriptLoading?: 'blocking' | 'defer' | 'module';
+  /**
    * @description Whether React hot-loading is enabled
    */
   reactHotLoading?: boolean;
