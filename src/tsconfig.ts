@@ -120,7 +120,9 @@ export const getTsconfig = (configPath: string): Tsconfig => {
     resolved.compilerOptions?.module &&
     !(
       resolved.compilerOptions.module.toLowerCase().startsWith('es') ||
-      resolved.compilerOptions.module.toLowerCase() === 'nodenext'
+      ['nodenext', 'preserve'].includes(
+        resolved.compilerOptions.module.toLowerCase()
+      )
     )
   ) {
     logger.warn(

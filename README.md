@@ -36,7 +36,7 @@ Out of the box tsb offers you:
 ## Important things to consider
 
 - You must set `"sourceMap": true` in your `tsconfig.json` to output source maps
-- You must choose an ES module for the `tsconfig.json` `"module"` option e.g. `"ESNext"` or `"NodeNext"` ([why?](#why-es-modules))
+- You must choose an ES module for the `tsconfig.json` `"module"` option e.g. `"ESNext"`, `"NodeNext"`, or `"Preserve"` ([why?](#why-es-modules))
 - You should include `"tsb.config.ts"` in your `tsconfig.json` `"include"` option to ensure this is type checked (but we'll do that for you during a build anyway)
 - You must install compatible React dependencies to enable [React hot-loading](#react-hot-loading)
 
@@ -316,7 +316,7 @@ If you have a custom `index.html` file, or need this to be processed by another 
 
 ## Why ES modules?
 
-You must choose an ES module for the `tsconfig.json` `"module"` option e.g. `"ESNext"` or `"NodeNext"`.
+You must choose an ES module for the `tsconfig.json` `"module"` option e.g. `"ESNext"`, `"NodeNext"`, or `"Preserve"`.
 
 This is to improve build performance and better handle dead code elimination.
 
