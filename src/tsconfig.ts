@@ -118,11 +118,14 @@ export const getTsconfig = (configPath: string): Tsconfig => {
 
   if (
     resolved.compilerOptions?.module &&
-    !resolved.compilerOptions.module.toLowerCase().startsWith('es')
+    !(
+      resolved.compilerOptions.module.toLowerCase().startsWith('es') ||
+      resolved.compilerOptions.module.toLowerCase() === 'nodenext'
+    )
   ) {
     logger.warn(
       `Your tsconfig.json module was set to "${resolved.compilerOptions.module}".
-You should target an ES module type e.g. "ESNext" to get the full benefits of this bundler.
+You should target an ES module type e.g. "ESNext" or "NodeNext" to get the full benefits of this bundler.
 We'll handle converting everything to CommonJS for you.`
     );
   }
