@@ -92,7 +92,8 @@ export const getTsbConfig = (configPath: string): Config => {
 
   const compilerOptions = {
     ...configFileContent.options,
-    module: ts.ModuleKind.CommonJS,
+    module: ts.ModuleKind.NodeNext,
+    moduleResolution: ts.ModuleResolutionKind.NodeNext,
   };
 
   const program = ts.createProgram({
