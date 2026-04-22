@@ -200,6 +200,12 @@ export const createWebpackConfig = (
       },
       resolve: {
         extensions: EXTENSIONS,
+        extensionAlias: {
+          '.js': EXTENSIONS,
+          '.jsx': EXTENSIONS,
+          '.cjs': EXTENSIONS,
+          '.mjs': EXTENSIONS,
+        },
         plugins: [
           new TsconfigPathsPlugin({
             configFile: fullTsconfigPath,

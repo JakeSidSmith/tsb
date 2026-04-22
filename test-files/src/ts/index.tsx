@@ -7,7 +7,7 @@ import * as ReactDOM from 'react-dom';
 
 import { message as alias, Enum, ConstEnum } from 'alias';
 // import * as yup from 'not-yup';
-import App from './app';
+import App from './app.js';
 
 console.log(Array.from([alias]));
 

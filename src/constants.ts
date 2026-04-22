@@ -6,7 +6,11 @@ export const DESCRIPTION =
 
 export const CONFIG_FILE_NAME = `${PROGRAM}.config.ts`;
 
-export const EXTENSIONS = ['.ts', '.tsx', '.js', '.jsx', '.cjs', '.mjs'];
+const TS_EXTENSIONS = ['.ts', '.tsx', '.mts', '.cts'];
+
+const JS_EXTENSIONS = ['.js', '.jsx', '.cjs', '.mjs'];
+
+export const EXTENSIONS = [...TS_EXTENSIONS, ...JS_EXTENSIONS];
 export const MATCHES_EXTENSION = new RegExp(
   `\\.(${EXTENSIONS.map((ext) => ext.substr(1)).join('|')})$`
 );
